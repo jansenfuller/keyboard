@@ -46,9 +46,10 @@
         //  │  ESC  │ A/CMD │ S/Opt │D/Ctrl │F/Shft │   G   │ │   H   │J/Shft │K/Ctrl │ L/Opt │;/CMD  │   "   │
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
         //  │ SHFT  │   Z   │   X   │   C   │   V   │   B   │ │   N   │   M   │   ,   │   .   │   /   │ SHFT  │
-        //  └───────┴───────┼───────┼───────┼───────┤       ├───────┼───────┼───────┴───────┴───────┘
-        //                  │ TRNS  │ CMD   │  LWR  │ BSPC  │  SPC  │  RSE  │ CMD   │ TRNS  │
-        //                  └───────┴───────┴───────┘       └───────┴───────┴───────┘
+        //  └───────┴───────┴───────┴───────┴───────┴───────┘ └───────┴───────┴───────┴───────┴───────┴───────┘
+        //            ┌───────┬───────┬───────┬───────┐         ┌───────┬───────┬───────┬───────┐
+        //            │ TRNS  │  LWR  │  TAB  │ BSPC  │         │  SPC  │  ENT  │  RSE  │ TRNS  │
+        //            └───────┴───────┴───────┴───────┘         └───────┴───────┴───────┴───────┘
 
         default_layer {
             display-name = "Letters";
@@ -57,37 +58,40 @@
 &kp TAB        &kp Q    &kp W    &kp E     &kp R     &kp T                          &kp Y    &kp U     &kp I      &kp O    &kp P     &kp BSPC
 &kp ESC        &mt LGUI A &mt LALT S &mt LCTRL D &mt LSHFT F &kp G                  &kp H    &mt RSHFT J &mt RCTRL K &mt RALT L &mt RGUI SEMI &kp DQT
 &kp LSHFT      &kp Z    &kp X    &kp C     &kp V     &kp B                          &kp N    &kp M     &kp COMMA  &kp DOT  &kp FSLH  &kp RSHFT
-                               &trans    &kp LGUI  &mo 1    &kp BSPC    &kp SPACE  &mo 2    &kp RGUI  &trans
+                               &trans    &mo 1    &kp TAB  &kp BSPC    &kp SPACE  &kp RET  &mo 2    &trans
             >;
         };
 
         // ==================================================================
         //  Layer 1 — Numerals & Symbols
         // ==================================================================
-        //  3×3 numblock (7-8-9 / 4-5-6 / 1-2-3) on the left,
-        //  with 0 flanking both sides of the bottom row.
-        //  Right side carries programming symbols grouped by category.
+        //  3×3 numblock (7-8-9 / 4-5-6 / 1-2-3) on the right,
+        //  shifted one column inward, with 0 flanking both sides
+        //  of the bottom row.  Left side carries programming symbols.
+        //  Paired brackets on ring & pointer columns; pinky columns
+        //  reserved for low-frequency singletons.
         //
         //  ┌───────┬───────┬───────┬───────┬───────┬───────┐ ┌───────┬───────┬───────┬───────┬───────┬───────┐
         //  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │   =   │   7   │   8   │   9   │   +   │   -   │ │   {   │   }   │   (   │   )   │   [   │   ]   │
+        //  │   !   │   #   │   ^   │   &   │   *   │   ?   │ │   =   │   7   │   8   │   9   │   +   │   -   │
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │   *   │   4   │   5   │   6   │   /   │   \   │ │   <   │   >   │   !   │   &   │   |   │   ~   │
+        //  │   `   │   [   │   (   │   ]   │   )   │   ~   │ │   *   │   4   │   5   │   6   │   /   │   \   │
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │   0   │   1   │   2   │   3   │   0   │   `   │ │   #   │   $   │   %   │   ^   │   @   │   ?   │
-        //  └───────┴───────┼───────┼───────┼───────┤       ├───────┼───────┼───────┴───────┴───────┘
-        //                  │ TRNS  │   _   │ TRNS  │   '   │   :   │ TRNS  │   .   │ TRNS  │
-        //                  └───────┴───────┴───────┘       └───────┴───────┴───────┘
+        //  │   \   │   <   │   {   │   >   │   }   │   |   │ │   0   │   1   │   2   │   3   │   0   │   `   │
+        //  └───────┴───────┴───────┴───────┴───────┴───────┘ └───────┴───────┴───────┴───────┴───────┴───────┘
+        //            ┌───────┬───────┬───────┬───────┐         ┌───────┬───────┬───────┬───────┐
+        //            │ TRNS  │ TRNS  │   _   │   '   │         │   :   │   .   │ TRNS  │ TRNS  │
+        //            └───────┴───────┴───────┴───────┘         └───────┴───────┴───────┴───────┘
 
         num_sym_layer {
             display-name = "Num & Sym";
             bindings = <
 &trans         &trans   &trans   &trans    &trans    &trans   &trans      &trans     &trans   &trans    &trans     &trans   &trans   &trans
-&kp EQUAL      &kp N7   &kp N8   &kp N9    &kp PLUS  &kp MINUS                     &kp LBRC  &kp RBRC  &kp LPAR   &kp RPAR  &kp LBKT  &kp RBKT
-&kp ASTR       &kp N4   &kp N5   &kp N6    &kp FSLH  &kp BSLH                       &kp LT    &kp GT    &kp EXCL   &kp AMPS  &kp PIPE  &kp TILDE
-&kp N0         &kp N1   &kp N2   &kp N3    &kp N0    &kp GRAVE                      &kp HASH  &kp DOLLAR &kp PRCNT &kp CARET &kp AT    &kp QMARK
-                               &trans    &kp UNDER &trans    &kp SQT      &kp COLON &trans    &kp DOT   &trans
+&kp EXCL     &kp HASH &kp CARET &kp AMPS &kp ASTR  &kp QMARK                     &kp EQUAL &kp N7    &kp N8     &kp N9   &kp PLUS  &kp MINUS
+&kp GRAVE    &kp LBKT &kp LPAR &kp RBKT  &kp RPAR  &kp TILDE                    &kp ASTR  &kp N4    &kp N5     &kp N6   &kp FSLH  &kp BSLH
+&kp BSLH     &kp LT   &kp LBRC &kp GT    &kp RBRC  &kp PIPE                      &kp N0    &kp N1    &kp N2     &kp N3   &kp N0    &kp GRAVE
+                               &trans    &trans    &kp UNDER &kp SQT      &kp COLON &kp DOT   &trans    &trans
             >;
         };
 
@@ -104,9 +108,10 @@
         //  │  F7   │  F8   │  F9   │  F10  │  F11  │  F12  │ │ LEFT  │ DOWN  │  UP   │ RIGHT │ TRNS  │ TRNS  │
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
         //  │ BTCLR │ BT0   │ BT1   │ BT2   │ BT3   │ BT4   │ │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
-        //  └───────┴───────┼───────┼───────┼───────┤       ├───────┼───────┼───────┴───────┴───────┘
-        //                  │ TRNS  │ BOOT  │ TRNS  │  RST  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
-        //                  └───────┴───────┴───────┘       └───────┴───────┴───────┘
+        //  └───────┴───────┴───────┴───────┴───────┴───────┘ └───────┴───────┴───────┴───────┴───────┴───────┘
+        //            ┌───────┬───────┬───────┬───────┐         ┌───────┬───────┬───────┬───────┐
+        //            │ BOOT  │ TRNS  │ TRNS  │  RST  │         │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
+        //            └───────┴───────┴───────┴───────┘         └───────┴───────┴───────┴───────┘
 
         func_layer {
             display-name = "Functional";
@@ -115,7 +120,7 @@
 &kp F1         &kp F2   &kp F3   &kp F4    &kp F5    &kp F6                        &kp HOME  &kp PGDN  &kp PGUP   &kp END   &kp INS   &kp DEL
 &kp F7         &kp F8   &kp F9   &kp F10   &kp F11   &kp F12                       &kp LEFT  &kp DOWN  &kp UP     &kp RIGHT &trans    &trans
 &bt BT_CLR     &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4    &trans    &trans    &trans     &trans   &trans    &trans
-                               &trans    &bootloader &trans  &sys_reset   &trans    &trans    &trans    &trans
+                               &bootloader &trans  &trans  &sys_reset   &trans    &trans    &trans    &trans
             >;
         };
     };
