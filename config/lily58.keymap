@@ -2,6 +2,10 @@
  * Copyright (c) 2020 The ZMK Contributors
  *
  * SPDX-License-Identifier: MIT
+ *
+ * Lily58 keymap constrained to a 6-column Corne footprint.
+ * Rows 0–2 + inner 3 thumbs per half are active; row 3 + outer thumbs are &trans.
+ * Mac-oriented: GUI = CMD, ALT = Opt.
  */
 
 #include <dt-bindings/zmk/behaviors.h>
@@ -17,47 +21,126 @@
             flavor = "hold-preferred";
             tapping-term-ms = <125>;
             bindings = <&kp>, <&kp>;
-
             display-name = "Mod-Tap";
+        };
+    };
+
+    // ------------------------------------------------------------------
+    //  nice!view status screen
+    //  Shows BLE signal bars, battery %, plug icon when on USB,
+    //  and the active layer name.
+    //  Adjust widget compatibles if your ZMK version differs.
+    // ------------------------------------------------------------------
+    chosen {
+        zmk,display = &nice_view_spi;
+    };
+
+    status_screen {
+        compatible = "zmk,status-screen";
+        display-name = "Status";
+        widgets {
+            peripheral_status {
+                compatible = "zmk,widget-peripheral-status";
+            };
+            battery_status {
+                compatible = "zmk,widget-battery-status";
+            };
+            output_status {
+                compatible = "zmk,widget-output-status";
+            };
+            layer_status {
+                compatible = "zmk,widget-layer-status";
+            };
         };
     };
 
     keymap {
         compatible = "zmk,keymap";
 
-        default_layer {
-            // ------------------------------------------------------------------------------------------------------------
-            // |   `       |  1  |  2  |  3   |  4   |  5   |                   |  6   |  7    |  8    |  9   |   0   |   =   |
-            // |  TAB      |  Q  |  W  |  E   |  R   |  T   |                   |  Y   |  U    |  I    |  O   |   P   |   -   |
-            // | LSHFT/ESC |  A  |  S  |  D   |  F   |  G   |                   |  H   |  J    |  K    |  L   |   ;   |   '   |
-            // |  CTRL     |  Z  |  X  |  C   |  V   |  B   |   "["  |  |  "]"  |  N   |  M    |  ,    |  .   |   /   |   \   |
-            //                         | GUI  | ALT  | LOWER|  BSPC  |  | SPACE | RAISE|  ALT  |  GUI  |
+        // ==================================================================
+        //  Layer 0 — Letters  (QWERTY + home-row mods)
+        // ==================================================================
+        //  Corne-overlap keys are active; row 3 + outer thumbs = &trans.
+        //
+        //  ┌───────┬───────┬───────┬───────┬───────┬───────┐ ┌───────┬───────┬───────┬───────┬───────┬───────┐
+        //  │  TAB  │   Q   │   W   │   E   │   R   │   T   │ │   Y   │   U   │   I   │   O   │   P   │ BSPC  │
+        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
+        //  │  ESC  │ A/CMD │ S/Opt │D/Ctrl │F/Shft │   G   │ │   H   │J/Shft │K/Ctrl │ L/Opt │;/CMD  │   "   │
+        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
+        //  │ SHFT  │   Z   │   X   │   C   │   V   │   B   │ │   N   │   M   │   ,   │   .   │   /   │ SHFT  │
+        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
+        //  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
+        //  └───────┴───────┼───────┼───────┼───────┤       ├───────┼───────┼───────┴───────┴───────┘
+        //                  │ TRNS  │ CMD   │  LWR  │ SPC   │  ENT  │  RSE  │ CMD   │ TRNS  │
+        //                  └───────┴───────┴───────┘       └───────┴───────┴───────┘
 
+        default_layer {
+            display-name = "Letters";
             bindings = <
-&kp GRAVE      &kp N1  &kp N2  &kp N3    &kp N4    &kp N5                         &kp N6   &kp N7    &kp N8     &kp N9   &kp N0    &kp EQUAL
-&kp TAB        &kp Q   &kp W   &kp E     &kp R     &kp T                          &kp Y    &kp U     &kp I      &kp O    &kp P     &kp MINUS
-&mt LSHFT ESC  &kp A   &kp S   &kp D     &kp F     &kp G                          &kp H    &kp J     &kp K      &kp L    &kp SEMI  &kp SQT
-&kp LCTRL      &kp Z   &kp X   &kp C     &kp V     &kp B   &kp LBKT    &kp RBKT   &kp N    &kp M     &kp COMMA  &kp DOT  &kp FSLH  &kp BSLH
-                               &kp LGUI  &kp LALT  &mo 1   &kp BSPC    &kp SPACE  &kp RET  &kp RALT  &kp RGUI
+&kp TAB        &kp Q    &kp W    &kp E     &kp R     &kp T                          &kp Y    &kp U     &kp I      &kp O    &kp P     &kp BSPC
+&kp ESC        &mt LGUI A &mt LALT S &mt LCTRL D &mt LSHFT F &kp G                  &kp H    &mt RSHFT J &mt RCTRL K &mt RALT L &mt RGUI SEMI &kp DQT
+&kp LSHFT      &kp Z    &kp X    &kp C     &kp V     &kp B                          &kp N    &kp M     &kp COMMA  &kp DOT  &kp FSLH  &kp RSHFT
+&trans         &trans   &trans   &trans    &trans    &trans   &trans      &trans     &trans   &trans    &trans     &trans   &trans   &trans
+                               &trans    &kp LGUI  &mo 1    &kp SPACE    &kp RET    &mo 2    &kp RGUI  &trans
             >;
         };
 
-        raise_layer {
-            // ------------------------------------------------------------------------------------------------------------
-            // |       |     |     |      |      |      |                   |      |       |       |      |       |       |
-            // |   `   |  1  |  2  |  3   |  4   |  5   |                   |  6   |   7   |   8   |  9   |   0   |       |
-            // |   F1  |  F2 |  F3 |  F4  |  F5  |  F6  |                   |  <-  |   v   |   ^   |  ->  |       |
-            // |   F7  |  F8 |  F9 |  F10 |  F11 |  F12 |        |  |       |  +   |   -   |   =   |  [   |   ]   |   \   |
-            //                     |      |      |      |        |  |       |      |       |       |
+        // ==================================================================
+        //  Layer 1 — Numerals & Symbols
+        // ==================================================================
+        //  3×3 numblock (7-8-9 / 4-5-6 / 1-2-3) on the left,
+        //  with 0 flanking both sides of the bottom row.
+        //  Right side carries programming symbols grouped by category.
+        //
+        //  ┌───────┬───────┬───────┬───────┬───────┬───────┐ ┌───────┬───────┬───────┬───────┬───────┬───────┐
+        //  │   =   │   7   │   8   │   9   │   +   │   -   │ │   {   │   }   │   (   │   )   │   [   │   ]   │
+        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
+        //  │   *   │   4   │   5   │   6   │   /   │   \   │ │   <   │   >   │   !   │   &   │   |   │   ~   │
+        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
+        //  │   0   │   1   │   2   │   3   │   0   │   `   │ │   #   │   $   │   %   │   ^   │   @   │   ?   │
+        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
+        //  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
+        //  └───────┴───────┼───────┼───────┼───────┤       ├───────┼───────┼───────┴───────┴───────┘
+        //                  │ TRNS  │   _   │ TRNS  │   '   │   :   │ TRNS  │   .   │ TRNS  │
+        //                  └───────┴───────┴───────┘       └───────┴───────┴───────┘
 
+        num_sym_layer {
+            display-name = "Num & Sym";
             bindings = <
-&out OUT_BLE  &trans  &trans  &trans   &trans   &trans                     &trans       &trans     &trans     &trans     &trans    &trans
-&kp GRAVE     &kp N1  &kp N2  &kp N3   &kp N4   &kp N5                     &kp N6       &kp N7     &kp N8     &kp N9     &kp N0    &trans
-&kp F1        &kp F2  &kp F3  &kp F4   &kp F5   &kp F6                     &kp LEFT     &kp DOWN   &kp UP     &kp RIGHT  &trans    &trans
-&kp F7        &kp F8  &kp F9  &kp F10  &kp F11  &kp F12  &trans    &trans  &kp KP_PLUS  &kp MINUS  &kp EQUAL  &kp LBKT   &kp RBKT  &kp BSLH
-                              &trans   &trans   &trans   &trans    &trans  &trans       &trans     &trans
+&kp EQUAL      &kp N7   &kp N8   &kp N9    &kp PLUS  &kp MINUS                     &kp LBRC  &kp RBRC  &kp LPAR   &kp RPAR  &kp LBKT  &kp RBKT
+&kp ASTR       &kp N4   &kp N5   &kp N6    &kp FSLH  &kp BSLH                       &kp LT    &kp GT    &kp EXCL   &kp AMPS  &kp PIPE  &kp TILDE
+&kp N0         &kp N1   &kp N2   &kp N3    &kp N0    &kp GRAVE                      &kp HASH  &kp DOLLAR &kp PRCNT &kp CARET &kp AT    &kp QMARK
+&trans         &trans   &trans   &trans    &trans    &trans   &trans      &trans     &trans    &trans    &trans    &trans   &trans   &trans
+                               &trans    &kp UNDER &trans    &kp SQT      &kp COLON &trans    &kp DOT   &trans
+            >;
+        };
+
+        // ==================================================================
+        //  Layer 2 — Functional
+        // ==================================================================
+        //  F-keys, navigation cluster, Bluetooth profiles, firmware ops.
+        //
+        //  ┌───────┬───────┬───────┬───────┬───────┬───────┐ ┌───────┬───────┬───────┬───────┬───────┬───────┐
+        //  │  F1   │  F2   │  F3   │  F4   │  F5   │  F6   │ │ HOME  │ PGDN  │ PGUP  │  END  │  INS  │  DEL  │
+        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
+        //  │  F7   │  F8   │  F9   │  F10  │  F11  │  F12  │ │ LEFT  │ DOWN  │  UP   │ RIGHT │ TRNS  │ TRNS  │
+        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
+        //  │ BTCLR │ BT0   │ BT1   │ BT2   │ BT3   │ BT4   │ │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
+        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
+        //  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
+        //  └───────┴───────┼───────┼───────┼───────┤       ├───────┼───────┼───────┴───────┴───────┘
+        //                  │ TRNS  │ BOOT  │ TRNS  │  RST  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
+        //                  └───────┴───────┴───────┘       └───────┴───────┴───────┘
+
+        func_layer {
+            display-name = "Functional";
+            bindings = <
+&kp F1         &kp F2   &kp F3   &kp F4    &kp F5    &kp F6                        &kp HOME  &kp PGDN  &kp PGUP   &kp END   &kp INS   &kp DEL
+&kp F7         &kp F8   &kp F9   &kp F10   &kp F11   &kp F12                       &kp LEFT  &kp DOWN  &kp UP     &kp RIGHT &trans    &trans
+&bt BT_CLR     &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4    &trans    &trans    &trans     &trans   &trans    &trans
+&trans         &trans   &trans   &trans    &trans    &trans   &trans      &trans     &trans    &trans    &trans     &trans   &trans    &trans
+                               &trans    &bootloader &trans  &sys_reset   &trans    &trans    &trans    &trans
             >;
         };
     };
 };
-
