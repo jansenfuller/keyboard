@@ -56,7 +56,7 @@
             bindings = <
 &trans         &trans   &trans   &trans    &trans    &trans   &trans      &trans     &trans   &trans    &trans     &trans   &trans   &trans
 &kp TAB        &kp Q    &kp W    &kp E     &kp R     &kp T                          &kp Y    &kp U     &kp I      &kp O    &kp P     &kp BSPC
-&kp ESC        &mt LGUI A &mt LALT S &mt LCTRL D &mt LSHFT F &kp G                  &kp H    &mt RSHFT J &mt RCTRL K &mt RALT L &mt RGUI SEMI &kp DQT
+&kp ESC        &mt LGUI A &mt LALT S &mt LCTRL D &mt LSHFT F &kp G                  &kp H    &mt RSHFT J &mt RCTRL K &mt RALT L &mt RGUI SEMI &kp LS(SQT)
 &kp LSHFT      &kp Z    &kp X    &kp C     &kp V     &kp B                          &kp N    &kp M     &kp COMMA  &kp DOT  &kp FSLH  &kp RSHFT
                                &trans    &mo 1    &kp TAB  &kp BSPC    &kp SPACE  &kp RET  &mo 2    &trans
             >;
@@ -88,10 +88,10 @@
             display-name = "Num & Sym";
             bindings = <
 &trans         &trans   &trans   &trans    &trans    &trans   &trans      &trans     &trans   &trans    &trans     &trans   &trans   &trans
-&kp EXCL     &kp HASH &kp CARET &kp AMPS &kp ASTR  &kp QMARK                     &kp EQUAL &kp N7    &kp N8     &kp N9   &kp PLUS  &kp MINUS
-&kp GRAVE    &kp LBKT &kp LPAR &kp RBKT  &kp RPAR  &kp TILDE                    &kp ASTR  &kp N4    &kp N5     &kp N6   &kp FSLH  &kp BSLH
-&kp BSLH     &kp LT   &kp LBRC &kp GT    &kp RBRC  &kp PIPE                      &kp N0    &kp N1    &kp N2     &kp N3   &kp N0    &kp GRAVE
-                               &trans    &trans    &kp UNDER &kp SQT      &kp COLON &kp DOT   &trans    &trans
+&kp LS(N1)   &kp LS(N3) &kp LS(N6) &kp LS(N7) &kp LS(N8) &kp LS(FSLH)               &kp EQUAL &kp N7    &kp N8     &kp N9   &kp LS(EQUAL) &kp MINUS
+&kp GRAVE    &kp LBKT &kp LS(N9) &kp RBKT  &kp LS(N0) &kp LS(GRAVE)               &kp LS(N8) &kp N4    &kp N5     &kp N6   &kp FSLH  &kp BSLH
+&kp BSLH     &kp LS(COMMA) &kp LS(LBKT) &kp LS(DOT) &kp LS(RBKT) &kp LS(BSLH)    &kp N0    &kp N1    &kp N2     &kp N3   &kp N0    &kp GRAVE
+                               &trans    &trans    &kp LS(MINUS) &kp SQT   &kp LS(SEMI) &kp DOT &trans    &trans
             >;
         };
 
