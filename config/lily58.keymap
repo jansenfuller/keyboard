@@ -12,6 +12,7 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/outputs.h>
+#include <dt-bindings/zmk/bt.h>
 
 / {
     behaviors {
@@ -25,18 +26,14 @@
         };
     };
 
-    // ------------------------------------------------------------------
-    //  nice!view display — auto-configured by the nice_view shield.
-    //  Default status screen shows BLE, battery, output, and layer.
-    // ------------------------------------------------------------------
-
     keymap {
         compatible = "zmk,keymap";
 
         // ==================================================================
         //  Layer 0 — Letters  (QWERTY + home-row mods)
         // ==================================================================
-        //  Corne-overlap keys are active; top row + outer thumbs = &trans.
+        //
+        //  Row 0 — all &trans (outside Corne footprint)
         //
         //  ┌───────┬───────┬───────┬───────┬───────┬───────┐ ┌───────┬───────┬───────┬───────┬───────┬───────┐
         //  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
@@ -54,22 +51,19 @@
         default_layer {
             display-name = "Letters";
             bindings = <
-&trans         &trans   &trans   &trans    &trans    &trans   &trans      &trans     &trans   &trans    &trans     &trans   &trans   &trans
-&kp TAB        &kp Q    &kp W    &kp E     &kp R     &kp T                          &kp Y    &kp U     &kp I      &kp O    &kp P     &kp BSPC
-&kp ESC        &mt LGUI A &mt LALT S &mt LCTRL D &mt LSHFT F &kp G                  &kp H    &mt RSHFT J &mt RCTRL K &mt RALT L &mt RGUI SEMI &kp LS(SQT)
-&kp LSHFT      &kp Z    &kp X    &kp C     &kp V     &kp B                          &kp N    &kp M     &kp COMMA  &kp DOT  &kp FSLH  &kp RSHFT
-                               &trans    &mo 1    &kp TAB  &kp BSPC    &kp SPACE  &kp RET  &mo 2    &trans
+&trans      &trans  &trans  &trans  &trans  &trans                      &trans  &trans  &trans  &trans  &trans  &trans
+&kp TAB     &kp Q   &kp W   &kp E   &kp R   &kp T                       &kp Y   &kp U   &kp I   &kp O   &kp P   &kp BSPC
+&kp ESC     &mt LGUI A &mt LALT S &mt LCTRL D &mt LSHFT F &kp G         &kp H   &mt RSHFT J &mt RCTRL K &mt RALT L &mt RGUI SEMI &kp DQT
+&kp LSHFT   &kp Z   &kp X   &kp C   &kp V   &kp B   &trans  &trans      &kp N   &kp M   &kp COMMA &kp DOT &kp FSLH &kp RSHFT
+                            &trans  &mo 1   &kp TAB &kp BSPC             &kp SPACE &kp RET &mo 2   &trans
             >;
         };
 
         // ==================================================================
         //  Layer 1 — Numerals & Symbols
         // ==================================================================
-        //  3×3 numblock (7-8-9 / 4-5-6 / 1-2-3) on the right,
-        //  shifted one column inward, with 0 flanking both sides
-        //  of the bottom row.  Left side carries programming symbols.
-        //  Paired brackets on ring & pointer columns; pinky columns
-        //  reserved for low-frequency singletons.
+        //
+        //  Row 0 — all &trans
         //
         //  ┌───────┬───────┬───────┬───────┬───────┬───────┐ ┌───────┬───────┬───────┬───────┬───────┬───────┐
         //  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
@@ -87,18 +81,19 @@
         num_sym_layer {
             display-name = "Num & Sym";
             bindings = <
-&trans         &trans   &trans   &trans    &trans    &trans   &trans      &trans     &trans   &trans    &trans     &trans   &trans   &trans
-&kp LS(N1)   &kp LS(N3) &kp LS(N6) &kp LS(N7) &kp LS(N8) &kp LS(FSLH)               &kp EQUAL &kp N7    &kp N8     &kp N9   &kp LS(EQUAL) &kp MINUS
-&kp GRAVE    &kp LBKT &kp LS(N9) &kp RBKT  &kp LS(N0) &kp LS(GRAVE)               &kp LS(N8) &kp N4    &kp N5     &kp N6   &kp FSLH  &kp BSLH
-&kp BSLH     &kp LS(COMMA) &kp LS(LBKT) &kp LS(DOT) &kp LS(RBKT) &kp LS(BSLH)    &kp N0    &kp N1    &kp N2     &kp N3   &kp N0    &kp GRAVE
-                               &trans    &trans    &kp LS(MINUS) &kp SQT   &kp LS(SEMI) &kp DOT &trans    &trans
+&trans      &trans  &trans  &trans  &trans  &trans                      &trans  &trans  &trans  &trans  &trans  &trans
+&kp EXCL   &kp HASH &kp CARET &kp AMPS &kp ASTRK &kp QMARK               &kp EQUAL &kp N7 &kp N8 &kp N9 &kp PLUS  &kp MINUS
+&kp GRAVE  &kp LBKT &kp LPAR &kp RBKT &kp RPAR  &kp TILDE                &kp ASTRK &kp N4 &kp N5 &kp N6 &kp FSLH &kp BSLH
+&kp BSLH   &kp LT   &kp LBRC &kp GT   &kp RBRC  &kp PIPE  &trans &trans  &kp N0    &kp N1 &kp N2 &kp N3 &kp N0   &kp GRAVE
+                            &trans  &trans  &kp UNDER &kp SQT              &kp COLON &kp DOT &trans &trans
             >;
         };
 
         // ==================================================================
         //  Layer 2 — Functional
         // ==================================================================
-        //  F-keys, navigation cluster, Bluetooth profiles, firmware ops.
+        //
+        //  Row 0 — all &trans
         //
         //  ┌───────┬───────┬───────┬───────┬───────┬───────┐ ┌───────┬───────┬───────┬───────┬───────┬───────┐
         //  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
@@ -116,11 +111,11 @@
         func_layer {
             display-name = "Functional";
             bindings = <
-&trans         &trans   &trans   &trans    &trans    &trans   &trans      &trans     &trans    &trans    &trans     &trans   &trans    &trans
-&kp F1         &kp F2   &kp F3   &kp F4    &kp F5    &kp F6                        &kp HOME  &kp PGDN  &kp PGUP   &kp END   &kp INS   &kp DEL
-&kp F7         &kp F8   &kp F9   &kp F10   &kp F11   &kp F12                       &kp LEFT  &kp DOWN  &kp UP     &kp RIGHT &trans    &trans
-&trans         &trans   &trans   &trans    &trans    &trans   &trans      &trans     &trans    &trans    &trans     &trans   &trans    &trans
-                               &bootloader &trans  &trans  &sys_reset   &trans    &trans    &trans    &trans
+&trans      &trans  &trans  &trans  &trans  &trans                      &trans  &trans  &trans  &trans  &trans  &trans
+&kp F1      &kp F2  &kp F3  &kp F4  &kp F5  &kp F6                     &kp HOME &kp PGDN &kp PGUP &kp END &kp INS &kp DEL
+&kp F7      &kp F8  &kp F9  &kp F10 &kp F11 &kp F12                    &kp LEFT &kp DOWN &kp UP  &kp RIGHT &trans &trans
+&trans      &trans  &trans  &trans  &trans  &trans  &trans  &trans      &trans   &trans   &trans &trans   &trans  &trans
+                            &bootloader &trans &trans &sys_reset         &trans   &trans   &trans &trans
             >;
         };
     };
