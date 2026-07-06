@@ -52,7 +52,7 @@
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
         //  │  TAB  │   Q   │   W   │   E   │   R   │   T   │ │   Y   │   U   │   I   │   O   │   P   │ BSPC  │
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │  ESC  │ A/CMD │ S/Opt │D/Ctrl │F/Shft │   G   │ │   H   │J/Shft │K/Ctrl │ L/Opt │;/CMD  │   "   │
+        //  │  ESC  │ A/CMD │ S/Opt │D/Ctrl │F/Shft │   G   │ │   H   │J/Shft │K/Ctrl │ L/Opt │;/CMD  │   '   │
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
         //  │ SHFT  │   Z   │   X   │   C   │   V   │   B   │ │   N   │   M   │   ,   │   .   │   /   │ SHFT  │
         //  └───────┴───────┴───────┴───────┴───────┴───────┘ └───────┴───────┴───────┴───────┴───────┴───────┘
@@ -65,7 +65,7 @@
             bindings = <
 &trans      &trans  &trans  &trans  &trans  &trans                      &trans  &trans  &trans  &trans  &trans  &trans
 &kp TAB     &kp Q   &kp W   &kp E   &kp R   &kp T                       &kp Y   &kp U   &kp I   &kp O   &kp P   &kp BSPC
-&kp ESC     &hml LGUI A &hml LALT S &hml LCTRL D &hml LSHFT F &kp G      &kp H   &hmr RSHFT J &hmr RCTRL K &hmr RALT L &hmr RGUI SEMI &kp DQT
+&kp ESC     &hml LGUI A &hml LALT S &hml LCTRL D &hml LSHFT F &kp G      &kp H   &hmr RSHFT J &hmr RCTRL K &hmr RALT L &hmr RGUI SEMI &kp SQT
 &kp LSHFT   &kp Z   &kp X   &kp C   &kp V   &kp B   &trans  &trans      &kp N   &kp M   &kp COMMA &kp DOT &kp FSLH &kp RSHFT
                             &trans  &mo 1   &kp TAB &kp BSPC             &kp SPACE &kp RET &mo 2   &trans
             >;
