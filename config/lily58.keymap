@@ -50,24 +50,24 @@
         //  ┌───────┬───────┬───────┬───────┬───────┬───────┐ ┌───────┬───────┬───────┬───────┬───────┬───────┐
         //  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │  TAB  │   Q   │   W   │   E   │   R   │   T   │ │   Y   │   U   │   I   │   O   │   P   │ BSPC  │
+        //  │ TRNS  │   Q   │   W   │   E   │   R   │   T   │ │   Y   │   U   │   I   │   O   │   P   │ TRNS  │
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
         //  │  ESC  │ A/CMD │ S/Opt │D/Ctrl │F/Shft │   G   │ │   H   │J/Shft │K/Ctrl │ L/Opt │;/CMD  │   '   │
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │ SHFT  │   Z   │   X   │   C   │   V   │   B   │ │   N   │   M   │   ,   │   .   │   /   │ SHFT  │
+        //  │ TRNS  │   Z   │   X   │   C   │   V   │   B   │ │   N   │   M   │   ,   │   .   │   /   │ TRNS  │
         //  └───────┴───────┴───────┴───────┴───────┴───────┘ └───────┴───────┴───────┴───────┴───────┴───────┘
         //            ┌───────┬───────┬───────┬───────┐         ┌───────┬───────┬───────┬───────┐
-        //            │ TRNS  │  LWR  │  TAB  │ BSPC  │         │  SPC  │  ENT  │  RSE  │ TRNS  │
+        //            │ SHFT  │  LWR  │  TAB  │ BSPC  │         │  SPC  │  ENT  │  RSE  │ SHFT  │
         //            └───────┴───────┴───────┴───────┘         └───────┴───────┴───────┴───────┘
 
         default_layer {
             display-name = "Letters";
             bindings = <
 &trans      &trans  &trans  &trans  &trans  &trans                      &trans  &trans  &trans  &trans  &trans  &trans
-&kp TAB     &kp Q   &kp W   &kp E   &kp R   &kp T                       &kp Y   &kp U   &kp I   &kp O   &kp P   &kp BSPC
+&trans      &kp Q   &kp W   &kp E   &kp R   &kp T                       &kp Y   &kp U   &kp I   &kp O   &kp P   &trans
 &kp ESC     &hml LGUI A &hml LALT S &hml LCTRL D &hml LSHFT F &kp G      &kp H   &hmr RSHFT J &hmr RCTRL K &hmr RALT L &hmr RGUI SEMI &kp SQT
-&kp LSHFT   &kp Z   &kp X   &kp C   &kp V   &kp B   &trans  &trans      &kp N   &kp M   &kp COMMA &kp DOT &kp FSLH &kp RSHFT
-                            &trans  &mo 1   &kp TAB &kp BSPC             &kp SPACE &kp RET &mo 2   &trans
+&trans      &kp Z   &kp X   &kp C   &kp V   &kp B   &trans  &trans      &kp N   &kp M   &kp COMMA &kp DOT &kp FSLH &trans
+                            &kp LSHFT &mo 1   &kp TAB &kp BSPC             &kp SPACE &kp RET &mo 2   &kp RSHFT
             >;
         };
 
