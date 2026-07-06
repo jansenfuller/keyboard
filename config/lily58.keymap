@@ -91,9 +91,9 @@
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
         //  │   !   │   #   │   ^   │   &   │   *   │   ?   │ │   =   │   7   │   8   │   9   │   +   │   -   │
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │   `   │   [   │   (   │   ]   │   )   │   ~   │ │   *   │   4   │   5   │   6   │   /   │   \   │
+        //  │   `   │   [   │   (   │   ]   │   )   │   ~   │ │   @   │   4   │   5   │   6   │   /   │   \   │
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │   \   │   <   │   {   │   >   │   }   │   |   │ │   0   │   1   │   2   │   3   │   0   │   `   │
+        //  │   %   │   <   │   {   │   >   │   }   │   |   │ │   0   │   1   │   2   │   3   │   $   │ ESC  │
         //  └───────┴───────┴───────┴───────┴───────┴───────┘ └───────┴───────┴───────┴───────┴───────┴───────┘
         //            ┌───────┬───────┬───────┬───────┐         ┌───────┬───────┬───────┬───────┐
         //            │ TRNS  │ TRNS  │   _   │   '   │         │   :   │   .   │ TRNS  │ TRNS  │
@@ -104,8 +104,8 @@
             bindings = <
 &trans      &trans  &trans  &trans  &trans  &trans                      &trans  &trans  &trans  &trans  &trans  &trans
 &kp EXCL   &kp HASH &kp CARET &kp AMPS &kp ASTRK &kp QMARK               &kp EQUAL &kp N7 &kp N8 &kp N9 &kp PLUS  &kp MINUS
-&kp GRAVE  &kp LBKT &kp LPAR &kp RBKT &kp RPAR  &kp TILDE                &kp ASTRK &kp N4 &kp N5 &kp N6 &kp FSLH &kp BSLH
-&kp BSLH   &kp LT   &kp LBRC &kp GT   &kp RBRC  &kp PIPE  &trans &trans  &kp N0    &kp N1 &kp N2 &kp N3 &kp N0   &kp GRAVE
+&kp GRAVE  &kp LBKT &kp LPAR &kp RBKT &kp RPAR  &kp TILDE                &kp AT    &kp N4 &kp N5 &kp N6 &kp FSLH &kp BSLH
+&kp PERCENT &kp LT &kp LBRC &kp GT   &kp RBRC  &kp PIPE &trans &trans    &kp N0    &kp N1 &kp N2 &kp N3 &kp DOLLAR &kp ESC
                             &trans  &trans  &kp UNDER &kp SQT              &kp COLON &kp DOT &trans &trans
             >;
         };
