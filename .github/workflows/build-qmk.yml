@@ -1,0 +1,31 @@
+name: Build QMK (Silakka54)
+on:
+  push:
+    paths:
+      - 'qmk/**'
+      - '.github/workflows/build-qmk.yml'
+  pull_request:
+    paths:
+      - 'qmk/**'
+      - '.github/workflows/build-qmk.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: QMK (Silakka54)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: keymap
+      - name: Clone QMK firmware and build
+        run: |
+          git clone --depth 1 https://github.com/qmk/qmk_firmware.git /tmp/qmk_firmware
+          cp -r "${{ github.workspace }}/keymap/qmk/keyboards/silakka54" /tmp/qmk_firmware/keyboards/
+          cd /tmp/qmk_firmware
+          make silakka54:default
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: qmk-silakka54-firmware
+          path: /tmp/qmk_firmware/.build/*.uf2
