@@ -57,7 +57,7 @@
         //  │ TRNS  │   Z   │   X   │   C   │   V   │   B   │ │   N   │   M   │   ,   │   .   │   /   │ TRNS  │
         //  └───────┴───────┴───────┴───────┴───────┴───────┘ └───────┴───────┴───────┴───────┴───────┴───────┘
         //            ┌───────┬───────┬───────┬───────┐         ┌───────┬───────┬───────┬───────┐
-        //            │ SHFT  │  LWR  │  TAB  │ BSPC  │         │  SPC  │  ENT  │  RSE  │ SHFT  │
+        //            │ TRNS  │  LWR  │  TAB  │ BSPC  │         │  SPC  │  ENT  │  RSE  │ TRNS  │
         //            └───────┴───────┴───────┴───────┘         └───────┴───────┴───────┴───────┘
 
         default_layer {
@@ -67,7 +67,7 @@
 &trans      &kp Q   &kp W   &kp E   &kp R   &kp T                       &kp Y   &kp U   &kp I   &kp O   &kp P   &trans
 &kp ESC     &hml LGUI A &hml LALT S &hml LCTRL D &hml LSHFT F &kp G      &kp H   &hmr RSHFT J &hmr RCTRL K &hmr RALT L &hmr RGUI SEMI &kp SQT
 &trans      &kp Z   &kp X   &kp C   &kp V   &kp B   &trans  &trans      &kp N   &kp M   &kp COMMA &kp DOT &kp FSLH &trans
-                            &kp LSHFT &mo 1   &kp TAB &kp BSPC             &kp SPACE &kp RET &mo 2   &kp RSHFT
+                            &trans  &mo 1   &kp TAB &kp BSPC             &kp SPACE &kp RET &mo 2   &trans
             >;
         };
 
