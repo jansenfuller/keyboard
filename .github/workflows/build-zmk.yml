@@ -25,29 +25,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Init & update
-        working-directory: zmk/config
+      - name: Initialize
         run: |
+          rm -rf .west
+          cp zmk/config/west.yml .
           west init -l .
           west update --fetch-opt=--filter=tree:0
 
       - name: Build ${{ matrix.shield }}
-        working-directory: zmk/config
         run: |
           west zephyr-export
           west build -s zmk/app -b ${{ matrix.board }} -- \
             -DSHIELD=${{ matrix.shield }} \
-            -DZMK_CONFIG="${PWD}"
+            -DZMK_CONFIG="${PWD}/zmk/config"
 
       - name: Upload firmware (${{ matrix.shield }})
         uses: actions/upload-artifact@v4
         with:
           name: zmk-${{ matrix.shield }}
-          path: zmk/config/build/zephyr/*.uf2
+          path: build/zephyr/*.uf2
 
       - name: Publish release
         if: startsWith(github.ref, 'refs/tags/zmk-')
         uses: softprops/action-gh-release@v2
         with:
-          files: zmk/config/build/zephyr/*.uf2
+          files: build/zephyr/*.uf2
           generate_release_notes: true
