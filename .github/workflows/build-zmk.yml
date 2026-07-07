@@ -41,8 +41,7 @@ jobs:
 
       - name: Init & update
         run: |
-          cp zmk/config/west.yml .
-          west init -l .
+          west init -m https://github.com/zmkfirmware/zmk.git --mr v0.3
           west update --fetch-opt=--filter=tree:0
 
       - name: Build ${{ matrix.shield }}
