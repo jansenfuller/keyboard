@@ -22,21 +22,32 @@ jobs:
         with:
           path: keymap
 
-      - name: Copy keymap and compile
+      - name: Copy keyboard and compile
         run: |
-          cp -r keymap/qmk/keyboards/silakka54/keymaps /qmk_firmware/keyboards/silakka54/
+          rm -rf /qmk_firmware/keyboards/silakka54
+          cp -r keymap/qmk/keyboards/silakka54 /qmk_firmware/keyboards/
           cd /qmk_firmware
           make silakka54:default
+
+      - name: Locate firmware
+        id: locate
+        run: |
+          cd /qmk_firmware
+          mkdir -p /tmp/firmware
+          find .build -type f \( -name "*.uf2" -o -name "*.bin" -o -name "*.hex" \) -exec cp {} /tmp/firmware/ \;
+          ls -la /tmp/firmware/
+          echo "Firmware files:"
+          ls -la .build/ 2>/dev/null || echo "No .build directory"
 
       - name: Upload firmware artifact
         uses: actions/upload-artifact@v4
         with:
           name: qmk-silakka54-firmware
-          path: /qmk_firmware/.build/*.uf2
+          path: /tmp/firmware/
 
       - name: Publish release
         if: startsWith(github.ref, 'refs/tags/qmk-')
         uses: softprops/action-gh-release@v2
         with:
-          files: /qmk_firmware/.build/*.uf2
+          files: /tmp/firmware/*
           generate_release_notes: true
