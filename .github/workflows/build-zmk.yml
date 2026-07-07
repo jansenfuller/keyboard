@@ -27,6 +27,15 @@ jobs:
 
       - name: Initialize
         run: |
+          echo "=== ENV ==="
+          echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
+          echo "PWD=$PWD"
+          echo "HOME=$HOME"
+          echo "=== DIRS ==="
+          ls -la /__w/
+          ls -la /__w/keyboard/ 2>/dev/null || echo "No /__w/keyboard/"
+          ls -la /__w/keyboard/keyboard/ 2>/dev/null || echo "No /__w/keyboard/keyboard/"
+          echo "=== Init ==="
           rm -rf .west
           cp zmk/config/west.yml .
           west init -l .

@@ -26,7 +26,6 @@ jobs:
 
       - name: Copy keyboard and compile
         run: |
-          rm -rf /qmk_firmware/keyboards/silakka54
           cp -r keymap/qmk/keyboards/silakka54 /qmk_firmware/keyboards/
           cd /qmk_firmware
           qmk list-keyboards | grep silakka54
