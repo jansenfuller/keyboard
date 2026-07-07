@@ -4,6 +4,8 @@ on:
     paths:
       - 'zmk/**'
       - '.github/workflows/build-zmk.yml'
+    tags:
+      - 'zmk-*'
   pull_request:
     paths:
       - 'zmk/**'
@@ -28,31 +30,37 @@ jobs:
         continue-on-error: true
         with:
           path: |
-            zmk/config/zephyr/
-            zmk/config/zmk/
-            zmk/config/modules/
-            zmk/config/tools/
-            zmk/config/bootloader/
+            zephyr/
+            zmk/
+            modules/
+            tools/
+            bootloader/
           key: zmk-${{ hashFiles('zmk/config/west.yml') }}
           restore-keys: |
             zmk-
 
       - name: Init & update
-        working-directory: zmk/config
         run: |
+          cp zmk/config/west.yml .
           west init -l .
           west update --fetch-opt=--filter=tree:0
 
       - name: Build ${{ matrix.shield }}
-        working-directory: zmk/config
         run: |
           west zephyr-export
           west build -s zmk/app -b ${{ matrix.board }} -- \
             -DSHIELD=${{ matrix.shield }} \
-            -DZMK_CONFIG="${PWD}"
+            -DZMK_CONFIG="${PWD}/zmk/config"
 
       - name: Upload firmware (${{ matrix.shield }})
         uses: actions/upload-artifact@v4
         with:
           name: zmk-${{ matrix.shield }}
-          path: zmk/config/build/zephyr/*.uf2
+          path: build/zephyr/*.uf2
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/zmk-')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/zephyr/*.uf2
+          generate_release_notes: true

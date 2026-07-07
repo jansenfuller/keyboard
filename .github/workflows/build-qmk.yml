@@ -4,6 +4,8 @@ on:
     paths:
       - 'qmk/**'
       - '.github/workflows/build-qmk.yml'
+    tags:
+      - 'qmk-*'
   pull_request:
     paths:
       - 'qmk/**'
@@ -26,8 +28,15 @@ jobs:
           cd /qmk_firmware
           make silakka54:default
 
-      - name: Upload firmware
+      - name: Upload firmware artifact
         uses: actions/upload-artifact@v4
         with:
           name: qmk-silakka54-firmware
           path: /qmk_firmware/.build/*.uf2
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/qmk-')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: /qmk_firmware/.build/*.uf2
+          generate_release_notes: true
