@@ -16,14 +16,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          path: keymap
-      - name: Clone QMK firmware and build
+
+      - name: Install QMK CLI
+        run: pip3 install qmk
+
+      - name: Clone QMK firmware
+        run: git clone --depth 1 https://github.com/qmk/qmk_firmware.git /tmp/qmk_firmware
+
+      - name: Copy keymap
         run: |
-          git clone --depth 1 https://github.com/qmk/qmk_firmware.git /tmp/qmk_firmware
-          cp -r "${{ github.workspace }}/keymap/qmk/keyboards/silakka54" /tmp/qmk_firmware/keyboards/
-          cd /tmp/qmk_firmware
-          make silakka54:default
+          cp -r qmk/keyboards/silakka54/keymaps /tmp/qmk_firmware/keyboards/silakka54/
+
+      - name: Compile
+        env:
+          QMK_HOME: /tmp/qmk_firmware
+        run: qmk compile -kb silakka54 -km default
+
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
