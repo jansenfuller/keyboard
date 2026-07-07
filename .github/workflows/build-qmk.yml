@@ -12,28 +12,22 @@ on:
 
 jobs:
   build:
-    name: QMK (Silakka54)
     runs-on: ubuntu-latest
+    container:
+      image: qmkfm/qmk_firmware:latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: keymap
 
-      - name: Install QMK CLI
-        run: pip3 install qmk
-
-      - name: Setup QMK firmware
-        run: qmk setup -y -H /tmp/qmk_firmware
-
-      - name: Copy keymap
+      - name: Copy keymap and compile
         run: |
-          cp -r qmk/keyboards/silakka54/keymaps /tmp/qmk_firmware/keyboards/silakka54/
-
-      - name: Compile
-        env:
-          QMK_HOME: /tmp/qmk_firmware
-        run: qmk compile -kb silakka54 -km default
+          cp -r keymap/qmk/keyboards/silakka54/keymaps /qmk_firmware/keyboards/silakka54/
+          cd /qmk_firmware
+          make silakka54:default
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
           name: qmk-silakka54-firmware
-          path: /tmp/qmk_firmware/.build/*.uf2
+          path: /qmk_firmware/.build/*.uf2

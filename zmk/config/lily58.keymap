@@ -84,10 +84,10 @@
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
         //  │   `   │   [   │   (   │   ]   │   )   │   ~   │ │   @   │   4   │   5   │   6   │   /   │   \   │
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │   %   │   <   │   {   │   >   │   }   │   |   │ │   0   │   1   │   2   │   3   │   $   │ ESC  │
+        //  │   %   │   <   │   {   │   >   │   }   │   |   │ │   0   │   1   │   2   │   3   │   $   │   _   │
         //  └───────┴───────┴───────┴───────┴───────┴───────┘ └───────┴───────┴───────┴───────┴───────┴───────┘
         //            ┌───────┬───────┬───────┬───────┐         ┌───────┬───────┬───────┬───────┐
-        //            │ TRNS  │ TRNS  │   _   │   '   │         │   :   │   .   │ TRNS  │ TRNS  │
+        //            │ TRNS  │ TRNS  │ TRNS  │ TRNS  │         │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
         //            └───────┴───────┴───────┴───────┘         └───────┴───────┴───────┴───────┘
 
         num_sym_layer {
@@ -96,8 +96,8 @@
 &trans      &trans  &trans  &trans  &trans  &trans                      &trans  &trans  &trans  &trans  &trans  &trans
 &kp EXCL   &kp HASH &kp CARET &kp AMPS &kp ASTRK &kp QMARK               &kp EQUAL &kp N7 &kp N8 &kp N9 &kp PLUS  &kp MINUS
 &kp GRAVE  &kp LBKT &kp LPAR &kp RBKT &kp RPAR  &kp TILDE                &kp AT    &kp N4 &kp N5 &kp N6 &kp FSLH &kp BSLH
-&kp PERCENT &kp LT &kp LBRC &kp GT   &kp RBRC  &kp PIPE &trans &trans    &kp N0    &kp N1 &kp N2 &kp N3 &kp DOLLAR &kp ESC
-                            &trans  &trans  &kp UNDER &kp SQT              &kp COLON &kp DOT &trans &trans
+&kp PERCENT &kp LT &kp LBRC &kp GT   &kp RBRC  &kp PIPE &trans &trans    &kp N0    &kp N1 &kp N2 &kp N3 &kp DOLLAR &kp UNDER
+                            &trans  &trans  &trans  &trans              &trans  &trans  &trans  &trans
             >;
         };
 

@@ -28,32 +28,31 @@ jobs:
         continue-on-error: true
         with:
           path: |
-            zephyr/
-            zmk/
-            modules/
-            tools/
-            bootloader/
+            zmk/config/zephyr/
+            zmk/config/zmk/
+            zmk/config/modules/
+            zmk/config/tools/
+            zmk/config/bootloader/
           key: zmk-${{ hashFiles('zmk/config/west.yml') }}
           restore-keys: |
             zmk-
 
-      - name: West init
-        run: west init -l zmk/config
-
-      - name: West update
-        run: west update --fetch-opt=--filter=tree:0
-
-      - name: West zephyr-export
-        run: west zephyr-export
+      - name: Init & update
+        working-directory: zmk/config
+        run: |
+          west init -l .
+          west update --fetch-opt=--filter=tree:0
 
       - name: Build ${{ matrix.shield }}
+        working-directory: zmk/config
         run: |
+          west zephyr-export
           west build -s zmk/app -b ${{ matrix.board }} -- \
             -DSHIELD=${{ matrix.shield }} \
-            -DZMK_CONFIG="${PWD}/zmk/config"
+            -DZMK_CONFIG="${PWD}"
 
       - name: Upload firmware (${{ matrix.shield }})
         uses: actions/upload-artifact@v4
         with:
           name: zmk-${{ matrix.shield }}
-          path: build/zephyr/*.uf2
+          path: zmk/config/build/zephyr/*.uf2
