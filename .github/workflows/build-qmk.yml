@@ -32,7 +32,16 @@ jobs:
           ls -la /qmk_firmware/keyboards/silakka54/keymaps/default/
           echo "=== Compiling ==="
           cd /qmk_firmware
-          make silakka54:default:uf2
+          make silakka54:default
+          echo "=== Converting to UF2 ==="
+          pip3 install uf2utils 2>/dev/null || true
+          for hex_file in .build/silakka54_default*.hex; do
+            if [ -f "$hex_file" ]; then
+              uf2conv -t silakka54 -f 0xe48bff56 "$hex_file" -o "${hex_file%.hex}.uf2" || true
+            fi
+          done
+          echo "=== Build output ==="
+          ls -la .build/
 
       - name: Locate firmware
         id: locate
