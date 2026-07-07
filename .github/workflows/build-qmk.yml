@@ -27,17 +27,28 @@ jobs:
           rm -rf /qmk_firmware/keyboards/silakka54
           cp -r keymap/qmk/keyboards/silakka54 /qmk_firmware/keyboards/
           cd /qmk_firmware
-          make silakka54:default
+          qmk compile -kb silakka54 -km default 2>&1
 
       - name: Locate firmware
         id: locate
         run: |
           cd /qmk_firmware
           mkdir -p /tmp/firmware
-          find .build -type f \( -name "*.uf2" -o -name "*.bin" -o -name "*.hex" \) -exec cp {} /tmp/firmware/ \;
-          ls -la /tmp/firmware/
-          echo "Firmware files:"
-          ls -la .build/ 2>/dev/null || echo "No .build directory"
+          echo "=== QMK_HOME ==="
+          echo "QMK_HOME=$QMK_HOME"
+          echo "=== Working directory ==="
+          pwd
+          echo "=== Contents of /qmk_firmware ==="
+          ls -la /qmk_firmware/
+          echo "=== Looking for .build ==="
+          ls -la .build/ 2>/dev/null || echo "No .build/ at firmware root"
+          ls -la /qmk_firmware/.build/ 2>/dev/null || echo "No .build/ at /qmk_firmware/"
+          echo "=== Searching for .uf2/.bin/.hex files ==="
+          find /qmk_firmware -name "*.uf2" -o -name "*.bin" -o -name "*.hex" 2>/dev/null || echo "No firmware files found"
+          echo "=== Copying any found firmware ==="
+          find /qmk_firmware -name "*.uf2" -o -name "*.bin" -o -name "*.hex" -exec cp {} /tmp/firmware/ \; 2>/dev/null || true
+          echo "=== Firmware dir ==="
+          ls -la /tmp/firmware/ || echo "Empty"
 
       - name: Upload firmware artifact
         uses: actions/upload-artifact@v4

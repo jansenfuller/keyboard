@@ -25,41 +25,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Cache west modules
-        uses: actions/cache@v4
-        continue-on-error: true
-        with:
-          path: |
-            zephyr/
-            zmk/
-            modules/
-            tools/
-            bootloader/
-          key: zmk-${{ hashFiles('zmk/config/west.yml') }}
-          restore-keys: |
-            zmk-
-
       - name: Init & update
+        working-directory: zmk/config
         run: |
-          west init -m https://github.com/zmkfirmware/zmk.git --mr v0.3
+          west init -l .
           west update --fetch-opt=--filter=tree:0
 
       - name: Build ${{ matrix.shield }}
+        working-directory: zmk/config
         run: |
           west zephyr-export
           west build -s zmk/app -b ${{ matrix.board }} -- \
             -DSHIELD=${{ matrix.shield }} \
-            -DZMK_CONFIG="${PWD}/zmk/config"
+            -DZMK_CONFIG="${PWD}"
 
       - name: Upload firmware (${{ matrix.shield }})
         uses: actions/upload-artifact@v4
         with:
           name: zmk-${{ matrix.shield }}
-          path: build/zephyr/*.uf2
+          path: zmk/config/build/zephyr/*.uf2
 
       - name: Publish release
         if: startsWith(github.ref, 'refs/tags/zmk-')
         uses: softprops/action-gh-release@v2
         with:
-          files: build/zephyr/*.uf2
+          files: zmk/config/build/zephyr/*.uf2
           generate_release_notes: true
