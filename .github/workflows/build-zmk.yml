@@ -12,8 +12,48 @@ on:
 
 jobs:
   build:
-    name: ZMK (Lily58)
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3
-    with:
-      config_path: zmk/config
-      build_matrix_path: zmk/build.yaml
+    runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-build-arm:stable
+    strategy:
+      fail-fast: false
+      matrix:
+        board: [nice_nano_v2]
+        shield: [lily58_left, lily58_right]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache west modules
+        uses: actions/cache@v4
+        continue-on-error: true
+        with:
+          path: |
+            zephyr/
+            zmk/
+            modules/
+            tools/
+            bootloader/
+          key: zmk-${{ hashFiles('zmk/config/west.yml') }}
+          restore-keys: |
+            zmk-
+
+      - name: West init
+        run: west init -l zmk/config
+
+      - name: West update
+        run: west update --fetch-opt=--filter=tree:0
+
+      - name: West zephyr-export
+        run: west zephyr-export
+
+      - name: Build ${{ matrix.shield }}
+        run: |
+          west build -s zmk/app -b ${{ matrix.board }} -- \
+            -DSHIELD=${{ matrix.shield }} \
+            -DZMK_CONFIG="${PWD}/zmk/config"
+
+      - name: Upload firmware (${{ matrix.shield }})
+        uses: actions/upload-artifact@v4
+        with:
+          name: zmk-${{ matrix.shield }}
+          path: build/zephyr/*.uf2
