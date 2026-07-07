@@ -32,7 +32,13 @@ jobs:
 
           echo "=== Workspace: $PWD ==="
           west init -l .
-          west update --fetch-opt=--filter=tree:0
+          echo "=== Manifest ==="
+          west list 2>&1 || echo "west list failed"
+          echo "=== Updating ==="
+          west update --fetch-opt=--filter=tree:0 -v 2>&1 | tail -50
+          echo "=== Projects after update ==="
+          west list 2>&1
+          ls -la
 
           echo "=== Verifying ZMK ==="
           ls -la zmk/ 2>/dev/null || echo "ZMK not found!"

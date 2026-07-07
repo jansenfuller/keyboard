@@ -24,24 +24,19 @@ jobs:
 
       - name: Copy keyboard and compile
         env:
+          QMK_HOME: /qmk_firmware
           QMK_FIRMWARE: /qmk_firmware
         run: |
           cp -r keymap/qmk/keyboards/silakka54 /qmk_firmware/keyboards/
           echo "=== Verifying keyboard files ==="
-          ls -la /qmk_firmware/keyboards/silakka54/
-          ls -la /qmk_firmware/keyboards/silakka54/keymaps/default/
+          ls -la /qmk_firmware/keyboards/silakka54/ 2>/dev/null || echo "Copy failed"
+          ls -la /qmk_firmware/keyboards/silakka54/keymaps/default/ 2>/dev/null || echo "No keymap"
           echo "=== Compiling ==="
           cd /qmk_firmware
-          make silakka54:default
-          echo "=== Converting to UF2 ==="
-          pip3 install uf2utils 2>/dev/null || true
-          for hex_file in .build/silakka54_default*.hex; do
-            if [ -f "$hex_file" ]; then
-              uf2conv -t silakka54 -f 0xe48bff56 "$hex_file" -o "${hex_file%.hex}.uf2" || true
-            fi
-          done
+          qmk compile -kb silakka54 -km default
           echo "=== Build output ==="
-          ls -la .build/
+          ls -la .build/ 2>/dev/null || echo "No .build/"
+          find . -name "*.hex" -o -name "*.uf2" -o -name "*.bin" 2>/dev/null || echo "No firmware found"
 
       - name: Locate firmware
         id: locate
