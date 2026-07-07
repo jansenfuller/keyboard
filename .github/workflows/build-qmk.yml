@@ -17,25 +17,27 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: qmkfm/qmk_firmware:latest
-    env:
-      QMK_HOME: /qmk_firmware
     steps:
       - uses: actions/checkout@v4
         with:
           path: keymap
 
       - name: Copy keyboard and compile
+        env:
+          QMK_FIRMWARE: /qmk_firmware
         run: |
           cp -r keymap/qmk/keyboards/silakka54 /qmk_firmware/keyboards/
           echo "=== Verifying keyboard files ==="
           ls -la /qmk_firmware/keyboards/silakka54/
           ls -la /qmk_firmware/keyboards/silakka54/keymaps/default/
-          echo "=== Compiling ==="
+          echo "=== Compiling with make ==="
           cd /qmk_firmware
-          qmk compile -kb silakka54 -km default 2>&1
+          make silakka54:default
 
       - name: Locate firmware
         id: locate
+        env:
+          QMK_FIRMWARE: /qmk_firmware
         run: |
           cd /qmk_firmware
           mkdir -p /tmp/firmware
