@@ -28,26 +28,21 @@ jobs:
       - name: Build ${{ matrix.shield }}
         run: |
           set -e
-          # Create a clean temp workspace
-          WORKSPACE=$(mktemp -d)
-          echo "Building in: $WORKSPACE"
-          cd "$WORKSPACE"
+          cd $GITHUB_WORKSPACE/zmk/config
 
-          # Init west from ZMK repo (main branch has root west.yml)
-          west init -m https://github.com/zmkfirmware/zmk.git --mr main
+          echo "=== Workspace: $PWD ==="
+          west init -l .
           west update --fetch-opt=--filter=tree:0
 
-          # Copy our config files
-          mkdir -p config
-          cp $GITHUB_WORKSPACE/zmk/config/*.keymap config/ 2>/dev/null || true
-          cp $GITHUB_WORKSPACE/zmk/config/*.conf config/ 2>/dev/null || true
+          echo "=== Verifying ZMK ==="
+          ls -la zmk/ 2>/dev/null || echo "ZMK not found!"
+          ls -la zmk/app/ 2>/dev/null || echo "zmk/app not found!"
 
           west zephyr-export
           west build -s zmk/app -b ${{ matrix.board }} -- \
             -DSHIELD=${{ matrix.shield }} \
-            -DZMK_CONFIG="${WORKSPACE}/config"
+            -DZMK_CONFIG="$PWD"
 
-          # Copy firmware to a known location
           mkdir -p /tmp/firmware
           cp build/zephyr/*.uf2 /tmp/firmware/ 2>/dev/null || true
 

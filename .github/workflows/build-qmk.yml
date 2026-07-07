@@ -30,9 +30,9 @@ jobs:
           echo "=== Verifying keyboard files ==="
           ls -la /qmk_firmware/keyboards/silakka54/
           ls -la /qmk_firmware/keyboards/silakka54/keymaps/default/
-          echo "=== Compiling with make ==="
+          echo "=== Compiling ==="
           cd /qmk_firmware
-          make silakka54:default
+          make silakka54:default:uf2
 
       - name: Locate firmware
         id: locate
