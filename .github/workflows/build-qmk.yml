@@ -24,18 +24,13 @@ jobs:
 
       - name: Copy keyboard and compile
         env:
-          QMK_HOME: /tmp/qmk_fw
-          QMK_FIRMWARE: /tmp/qmk_fw
+          QMK_HOME: /qmk_firmware
+          QMK_FIRMWARE: /qmk_firmware
         run: |
-          echo "=== Clone latest QMK firmware ==="
-          git clone --depth 1 --recurse-submodules https://github.com/qmk/qmk_firmware.git /tmp/qmk_fw 2>&1
-          echo "=== Fix qmk CLI dependency ==="
-          pip3 install platformdirs 2>&1 || true
-          echo "=== Copy keymap ==="
-          cp -r keymap/qmk/keyboards/silakka54/keymaps /tmp/qmk_fw/keyboards/silakka54/
-          ls -la /tmp/qmk_fw/keyboards/silakka54/keymaps/default/
+          echo "=== Copying keyboard to firmware ==="
+          cp -vr keymap/qmk/keyboards/silakka54 /qmk_firmware/keyboards/
           echo "=== Compiling ==="
-          cd /tmp/qmk_fw
+          cd /qmk_firmware
           make silakka54:default
           echo "=== Build output ==="
           ls -la .build/ 2>/dev/null || echo "No .build/"
@@ -44,12 +39,12 @@ jobs:
       - name: Locate firmware
         id: locate
         run: |
-          cd /tmp/qmk_fw
+          cd /qmk_firmware
           mkdir -p /tmp/firmware
           echo "=== Searching for firmware files ==="
-          find /tmp/qmk_fw -name "*.uf2" -o -name "*.bin" -o -name "*.hex" 2>/dev/null || echo "None found"
+          find /qmk_firmware -name "*.uf2" -o -name "*.bin" -o -name "*.hex" 2>/dev/null || echo "None found"
           echo "=== Copying firmware ==="
-          find /tmp/qmk_fw -name "*.uf2" -o -name "*.bin" -o -name "*.hex" -exec cp {} /tmp/firmware/ \; 2>/dev/null || true
+          find /qmk_firmware -name "*.uf2" -o -name "*.bin" -o -name "*.hex" -exec cp {} /tmp/firmware/ \; 2>/dev/null || true
           ls -la /tmp/firmware/ || echo "Empty"
 
       - name: Upload firmware artifact

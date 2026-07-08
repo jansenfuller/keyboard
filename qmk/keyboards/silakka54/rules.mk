@@ -1,0 +1,12 @@
+# Silakka54 rules for QMK 0.13 compatibility
+
+MCU = RP2040
+BOOTLOADER = rp2040
+
+BOOTMAGIC_ENABLE = yes
+EXTRAKEY_ENABLE = yes
+MOUSEKEY_ENABLE = yes
+NKRO_ENABLE = yes
+
+SPLIT_KEYBOARD = yes
+SERIAL_DRIVER = vendor
