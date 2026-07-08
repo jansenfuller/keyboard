@@ -17,56 +17,35 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: zmkfirmware/zmk-build-arm:stable
-    strategy:
-      fail-fast: false
-      matrix:
-        board: [nice_nano_v2]
-        shield: [lily58_left, lily58_right]
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build ${{ matrix.shield }}
+      - name: Setup workspace
         run: |
-          set -e
           cd $GITHUB_WORKSPACE/zmk/config
-
-          echo "=== Workspace: $PWD ==="
           west init -l .
-          echo "=== Cloning ZMK ==="
           git clone --depth 1 --branch v0.3.0 https://github.com/zmkfirmware/zmk.git zmk
-          ls zmk/app/ 2>/dev/null || echo "ZMK clone failed!"
-          echo "=== West update (remaining) ==="
           west update 2>&1
-
           west zephyr-export
-          west build -s zmk/app -b ${{ matrix.board }} -- \
-            -DSHIELD=${{ matrix.shield }} \
+
+      - name: Build left
+        run: |
+          cd $GITHUB_WORKSPACE/zmk/config
+          west build -d build/left -s zmk/app -b nice_nano_v2 -- \
+            -DSHIELD=lily58_left \
             -DZMK_CONFIG="$PWD"
-
           mkdir -p /tmp/firmware
-          uf2=$(find build/zephyr -name "*.uf2" 2>/dev/null | head -1)
-          if [ -n "$uf2" ]; then
-            cp "$uf2" "/tmp/firmware/${{ matrix.shield }}.uf2"
-          fi
+          cp build/left/zephyr/*.uf2 /tmp/firmware/lily58_left.uf2 2>/dev/null || true
 
-      - name: Upload firmware (${{ matrix.shield }})
-        uses: actions/upload-artifact@v4
-        with:
-          name: zmk-artifact-${{ matrix.shield }}
-          path: /tmp/firmware/
+      - name: Build right
+        run: |
+          cd $GITHUB_WORKSPACE/zmk/config
+          west build -d build/right -s zmk/app -b nice_nano_v2 -- \
+            -DSHIELD=lily58_right \
+            -DZMK_CONFIG="$PWD"
+          cp build/right/zephyr/*.uf2 /tmp/firmware/lily58_right.uf2 2>/dev/null || true
 
-  merge:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download all firmware
-        uses: actions/download-artifact@v4
-        with:
-          pattern: zmk-artifact-*
-          path: /tmp/firmware
-          merge-multiple: true
-
-      - name: Upload merged firmware
+      - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
           name: zmk-firmware
