@@ -15,37 +15,43 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: qmkfm/qmk_firmware:latest
     steps:
       - uses: actions/checkout@v4
         with:
           path: keymap
 
-      - name: Copy keyboard and compile
-        env:
-          QMK_HOME: /qmk_firmware
-          QMK_FIRMWARE: /qmk_firmware
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install ARM toolchain
         run: |
-          echo "=== Copying keyboard to firmware ==="
-          cp -vr keymap/qmk/keyboards/silakka54 /qmk_firmware/keyboards/
-          echo "=== Compiling ==="
-          cd /qmk_firmware
+          sudo apt-get update
+          sudo apt-get install -y gcc-arm-none-eabi
+
+      - name: Install QMK CLI
+        run: pip3 install qmk
+
+      - name: Setup QMK firmware
+        run: |
+          qmk setup -y -H /tmp/qmk_fw
+
+      - name: Copy keymap
+        run: |
+          cp -r keymap/qmk/keyboards/silakka54/keymaps /tmp/qmk_fw/keyboards/silakka54/
+          ls -la /tmp/qmk_fw/keyboards/silakka54/keymaps/default/
+
+      - name: Compile
+        run: |
+          cd /tmp/qmk_fw
           make silakka54:default
-          echo "=== Build output ==="
-          ls -la .build/ 2>/dev/null || echo "No .build/"
-          find . -name "*.hex" -o -name "*.uf2" -o -name "*.bin" 2>/dev/null || echo "No firmware found"
 
       - name: Locate firmware
-        id: locate
         run: |
-          cd /qmk_firmware
           mkdir -p /tmp/firmware
-          echo "=== Searching for firmware files ==="
-          find /qmk_firmware -name "*.uf2" -o -name "*.bin" -o -name "*.hex" 2>/dev/null || echo "None found"
-          echo "=== Copying firmware ==="
-          find /qmk_firmware -name "*.uf2" -o -name "*.bin" -o -name "*.hex" -exec cp {} /tmp/firmware/ \; 2>/dev/null || true
-          ls -la /tmp/firmware/ || echo "Empty"
+          find /tmp/qmk_fw -name "*.uf2" -o -name "*.bin" -o -name "*.hex" \
+            -exec cp {} /tmp/firmware/ \; 2>/dev/null || true
+          ls -la /tmp/firmware/
 
       - name: Upload firmware artifact
         uses: actions/upload-artifact@v4
