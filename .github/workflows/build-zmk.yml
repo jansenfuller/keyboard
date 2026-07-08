@@ -32,9 +32,11 @@ jobs:
 
           echo "=== Workspace: $PWD ==="
           west init -l .
-          echo "=== Updating ==="
-          west update --fetch-opt=--filter=tree:0
-          echo "=== Projects after update ==="
+          echo "=== Cloning ZMK ==="
+          git clone --depth 1 --branch v0.3.0 https://github.com/zmkfirmware/zmk.git zmk
+          ls zmk/app/ 2>/dev/null || echo "ZMK clone failed!"
+          echo "=== West update (remaining) ==="
+          west update 2>&1
           ls -la
 
           echo "=== Verifying ZMK ==="

@@ -40,6 +40,12 @@ jobs:
           ls -la /qmk_firmware/keyboards/silakka54/keymaps/default/
           echo "=== Compiling ==="
           cd /qmk_firmware
+          echo "--- Python env ---"
+          python3 -c "import os; print('QMK_FIRMWARE in Python:', repr(os.environ.get('QMK_FIRMWARE', 'NOT SET')))"
+          echo "--- qmk config ---"
+          qmk config -ro user.qmk_firmware 2>/dev/null || echo "qmk config failed"
+          echo "--- Direct check ---"
+          python3 -c "import os; print(os.path.exists('/qmk_firmware/keyboards/silakka54'))"
           qmk compile -kb silakka54 -km default
           echo "=== Build output ==="
           ls -la .build/ 2>/dev/null || echo "No .build/"
