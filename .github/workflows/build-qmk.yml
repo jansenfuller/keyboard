@@ -24,44 +24,30 @@ jobs:
 
       - name: Copy keyboard and compile
         env:
-          QMK_HOME: /qmk_firmware
-          QMK_FIRMWARE: /qmk_firmware
+          QMK_HOME: /tmp/qmk_fw
+          QMK_FIRMWARE: /tmp/qmk_fw
         run: |
-          echo "=== Env ==="
-          echo "QMK_FIRMWARE=$QMK_FIRMWARE"
-          echo "QMK_HOME=$QMK_HOME"
-          echo "HOME=$HOME"
-          echo "PWD=$PWD"
-          echo "=== Copying keyboard ==="
-          ls -la keymap/qmk/keyboards/silakka54/ 2>/dev/null || echo "Source not found"
-          cp -vr keymap/qmk/keyboards/silakka54 /qmk_firmware/keyboards/
-          echo "=== After copy ==="
-          ls -la /qmk_firmware/keyboards/silakka54/
-          ls -la /qmk_firmware/keyboards/silakka54/keymaps/default/
+          echo "=== Setup fresh QMK firmware ==="
+          qmk setup -y -H /tmp/qmk_fw 2>&1
+          echo "=== Copy keymap ==="
+          cp -r keymap/qmk/keyboards/silakka54/keymaps /tmp/qmk_fw/keyboards/silakka54/
+          ls -la /tmp/qmk_fw/keyboards/silakka54/keymaps/default/
           echo "=== Compiling ==="
-          cd /qmk_firmware
-          qmk config user.qmk_firmware=/qmk_firmware
-          qmk compile -km default /qmk_firmware/keyboards/silakka54/keyboard.json
+          cd /tmp/qmk_fw
+          make silakka54:default
           echo "=== Build output ==="
           ls -la .build/ 2>/dev/null || echo "No .build/"
           find . -name "*.hex" -o -name "*.uf2" -o -name "*.bin" 2>/dev/null || echo "No firmware found"
 
       - name: Locate firmware
         id: locate
-        env:
-          QMK_FIRMWARE: /qmk_firmware
         run: |
-          cd /qmk_firmware
+          cd /tmp/qmk_fw
           mkdir -p /tmp/firmware
-          echo "=== QMK_HOME=$QMK_HOME ==="
-          echo "=== Contents of QMK_HOME ==="
-          ls -la /qmk_firmware/
-          echo "=== Looking for .build ==="
-          ls -la /qmk_firmware/.build/ 2>/dev/null || echo "No .build/ at /qmk_firmware/"
           echo "=== Searching for firmware files ==="
-          find /qmk_firmware -name "*.uf2" -o -name "*.bin" -o -name "*.hex" 2>/dev/null || echo "None found"
-          echo "=== Copying any found firmware ==="
-          find /qmk_firmware -name "*.uf2" -o -name "*.bin" -o -name "*.hex" -exec cp {} /tmp/firmware/ \; 2>/dev/null || true
+          find /tmp/qmk_fw -name "*.uf2" -o -name "*.bin" -o -name "*.hex" 2>/dev/null || echo "None found"
+          echo "=== Copying firmware ==="
+          find /tmp/qmk_fw -name "*.uf2" -o -name "*.bin" -o -name "*.hex" -exec cp {} /tmp/firmware/ \; 2>/dev/null || true
           ls -la /tmp/firmware/ || echo "Empty"
 
       - name: Upload firmware artifact
