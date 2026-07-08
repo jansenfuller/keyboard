@@ -44,7 +44,10 @@ jobs:
             -DZMK_CONFIG="$PWD"
 
           mkdir -p /tmp/firmware
-          cp build/zephyr/*.uf2 /tmp/firmware/ 2>/dev/null || true
+          uf2=$(find build/zephyr -name "*.uf2" 2>/dev/null | head -1)
+          if [ -n "$uf2" ]; then
+            cp "$uf2" "/tmp/firmware/${{ matrix.shield }}.uf2"
+          fi
 
       - name: Upload firmware (${{ matrix.shield }})
         uses: actions/upload-artifact@v4
