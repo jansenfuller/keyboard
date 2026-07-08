@@ -37,11 +37,6 @@ jobs:
           ls zmk/app/ 2>/dev/null || echo "ZMK clone failed!"
           echo "=== West update (remaining) ==="
           west update 2>&1
-          ls -la
-
-          echo "=== Verifying ZMK ==="
-          ls -la zmk/ 2>/dev/null || echo "ZMK not found!"
-          ls -la zmk/app/ 2>/dev/null || echo "zmk/app not found!"
 
           west zephyr-export
           west build -s zmk/app -b ${{ matrix.board }} -- \
@@ -54,7 +49,24 @@ jobs:
       - name: Upload firmware (${{ matrix.shield }})
         uses: actions/upload-artifact@v4
         with:
-          name: zmk-${{ matrix.shield }}
+          name: zmk-artifact-${{ matrix.shield }}
+          path: /tmp/firmware/
+
+  merge:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all firmware
+        uses: actions/download-artifact@v4
+        with:
+          pattern: zmk-artifact-*
+          path: /tmp/firmware
+          merge-multiple: true
+
+      - name: Upload merged firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: zmk-firmware
           path: /tmp/firmware/
 
       - name: Publish release
