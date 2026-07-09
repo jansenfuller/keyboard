@@ -6,7 +6,7 @@
  * Lily58 keymap — 4-layer layout, 5-column footprint (outer cols &trans).
  * Mac-oriented: GUI = CMD, ALT = Opt.
  * Home-row mods: D=Ctrl, F=Shift, J=Shift, K=Ctrl
- * Combos: Q+W = ESC, D+F = BOOT
+ * Combos: D+F = ESC
  */
 
 #include <dt-bindings/zmk/behaviors.h>
@@ -42,13 +42,9 @@
         compatible = "zmk,combos";
         esc_combo {
             timeout-ms = <50>;
-            key-positions = <13 14>;
+            key-positions = <27 28>;
             bindings = <&kp ESC>;
         };
-        boot_combo {
-            timeout-ms = <50>;
-            key-positions = <27 28>;
-            bindings = <&bootloader>;
         };
     };
 

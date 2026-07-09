@@ -31,16 +31,13 @@ enum layers {
 
 enum combos {
     CMB_ESC,
-    CMB_BOOT,
     CMB_LENGTH,
 };
 
-const uint16_t PROGMEM esc_combo[]  = {KC_Q, KC_W, COMBO_END};
-const uint16_t PROGMEM boot_combo[] = {KC_D, KC_F, COMBO_END};
+const uint16_t PROGMEM esc_combo[]  = {KC_D, KC_F, COMBO_END};
 
 combo_t key_combos[] = {
     [CMB_ESC]  = COMBO(esc_combo,  KC_ESC),
-    [CMB_BOOT] = COMBO(boot_combo, QK_BOOT),
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
