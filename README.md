@@ -11,7 +11,7 @@ Configurations for three split keyboards sharing a 4-layer 5-column layout.
 ## Keymap
 
 **Home-row mods:** D=Ctrl, F=Shift, J=Shift, K=Ctrl  
-**Combo:** D+F = ESC  
+**Combo:** Space + Backspace = ESC  
 **Thumbs:** MO(1) TAB BSPC — SPACE ENT MO(2)  
 **Layer 3:** press the opposite layer key while on L1 or L2
 
@@ -28,15 +28,15 @@ Configurations for three split keyboards sharing a 4-layer 5-column layout.
 
 ```
   `     /     -     \                 =     7     8     9
-  [     (     ]     )     !           *     4     5     6     '
+  [     (     ]     )                 *     4     5     6     '
   <     {     >     }                 0     1     2     3     .
 ```
 
 ### Layer 2 — Upper + Arrows    (right thumb)
 
 ```
-  ~     ?     _     |               +     &     *     ^
-  !     @     #     $     %         ←     ↓     ↑     →     "
+  ~     !     _     |               +     &     *     ^
+  %     @     #     $               ←     ↓     ↑     →     "
 ```
 
 ### Layer 3 — Nav + F-keys + System    (both thumbs)
