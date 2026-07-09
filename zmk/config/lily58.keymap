@@ -86,11 +86,11 @@
         //  ┌───────┬───────┬───────┬───────┬───────┬───────┐ ┌───────┬───────┬───────┬───────┬───────┬───────┐
         //  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │ TRNS  │   #   │   '   │   "   │   @   │   ?   │ │   =   │   7   │   8   │   9   │   +   │ TRNS  │
+        //  │ TRNS  │   #   │   /   │ TRNS  │   @   │   ?   │ │   =   │   7   │   8   │   9   │   +   │ TRNS  │
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │ TRNS  │   [   │   (   │   ]   │   )   │   _   │ │   *   │   4   │   5   │   6   │   /   │ TRNS  │
+        //  │ TRNS  │   [   │   (   │   ]   │   )   │   "   │ │   *   │   4   │   5   │   6   │   '   │ TRNS  │
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │ TRNS  │   <   │   {   │   >   │   }   │   \   │ │   0   │   1   │   2   │   3   │   $   │ TRNS  │
+        //  │ TRNS  │   <   │   {   │   >   │   }   │   -   │ │   0   │   1   │   2   │   3   │   $   │ TRNS  │
         //  └───────┴───────┴───────┴───────┴───────┴───────┘ └───────┴───────┴───────┴───────┴───────┴───────┘
         //            ┌───────┬───────┬───────┬───────┐         ┌───────┬───────┬───────┬───────┐
         //            │ TRNS  │ TRNS  │ TRNS  │ TRNS  │         │ TRNS  │ TRNS  │ MO(3) │ TRNS  │
@@ -99,9 +99,9 @@
             display-name = "Num & Sym";
             bindings = <
 &trans      &trans  &trans  &trans  &trans  &trans                      &trans  &trans  &trans  &trans  &trans  &trans
-&trans      &kp HASH &kp SQT &kp DQT  &kp AT   &kp QMARK                &kp EQUAL &kp N7 &kp N8 &kp N9 &kp PLUS  &trans
-&trans      &kp LBKT &kp LPAR &kp RBKT &kp RPAR &kp UNDER               &kp ASTRK &kp N4 &kp N5 &kp N6 &kp FSLH &trans
-&trans      &kp LT   &kp LBRC &kp GT   &kp RBRC &kp BSLH &trans &trans  &kp N0    &kp N1 &kp N2 &kp N3 &kp DOLLAR &trans
+&trans      &kp HASH &kp FSLH &kp AMPS &kp AT   &kp QMARK                &kp EQUAL &kp N7 &kp N8 &kp N9 &kp PLUS  &trans
+&trans      &kp LBKT &kp LPAR &kp RBKT &kp RPAR &kp UNDER               &kp ASTRK &kp N4 &kp N5 &kp N6 &kp SQT   &trans
+&trans      &kp LT   &kp LBRC &kp GT   &kp RBRC &kp MINUS &trans &trans  &kp N0    &kp N1 &kp N2 &kp N3 &kp DOLLAR &trans
                             &trans  &trans  &trans  &trans              &trans  &trans  &mo 3   &trans
             >;
         };
@@ -116,7 +116,7 @@
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
         //  │ TRNS  │   ~   │   ^   │   &   │ TRNS  │ TRNS  │ │ HOME  │ PGDN  │ PGUP  │  END  │  DEL  │ TRNS  │
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │ TRNS  │   !   │   -   │   `   │   %   │   |   │ │ LEFT  │ DOWN  │  UP   │ RIGHT │ TRNS  │ TRNS  │
+        //  │ TRNS  │   !   │   \   │   `   │   %   │   |   │ │ LEFT  │ DOWN  │  UP   │ RIGHT │ TRNS  │ TRNS  │
         //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
         //  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
         //  └───────┴───────┴───────┴───────┴───────┴───────┘ └───────┴───────┴───────┴───────┴───────┴───────┘
@@ -127,8 +127,8 @@
             display-name = "Arrows & Nav";
             bindings = <
 &trans      &trans  &trans  &trans  &trans  &trans                      &trans  &trans  &trans  &trans  &trans  &trans
-&trans      &kp TILDE &kp CARET &kp AMPS &trans  &trans                 &kp HOME &kp PGDN &kp PGUP &kp END &kp DEL  &trans
-&trans      &kp EXCL &kp MINUS &kp GRAVE &kp PERCENT &kp PIPE           &kp LEFT &kp DOWN &kp UP  &kp RIGHT &trans &trans
+&trans      &kp TILDE &kp CARET &trans  &kp PIPE  &trans                 &kp HOME &kp PGDN &kp PGUP &kp END &kp DEL  &trans
+&trans      &kp EXCL &kp BSLH &kp GRAVE &kp PERCENT &kp DQT              &kp LEFT &kp DOWN &kp UP  &kp RIGHT &trans &trans
 &trans      &trans  &trans  &trans  &trans  &trans  &trans  &trans      &trans   &trans   &trans &trans   &trans  &trans
                             &trans  &mo 3   &trans  &trans              &trans   &trans   &trans &trans
             >;

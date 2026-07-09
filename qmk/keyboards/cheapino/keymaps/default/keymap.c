@@ -58,9 +58,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * Right thumb outer = MO(3) → layer 3 when both thumbs held
      */
     [NUM_SYM] = LAYOUT_split_3x5_3(
-        KC_HASH, KC_QUOT, KC_DQT,  KC_AT,   KC_QUES,      KC_EQL,  KC_7,    KC_8,    KC_9,    KC_PLUS,
-        KC_LBRC, KC_LPRN, KC_RBRC, KC_RPRN, KC_UNDS,      KC_ASTR, KC_4,    KC_5,    KC_6,    KC_SLSH,
-        KC_LT,   KC_LCBR, KC_GT,   KC_RCBR, KC_BSLS,      KC_0,    KC_1,    KC_2,    KC_3,    KC_DLR,
+        KC_HASH, KC_SLSH, KC_AMPR, KC_AT,   KC_QUES,      KC_EQL,  KC_7,    KC_8,    KC_9,    KC_PLUS,
+        KC_LBRC, KC_LPRN, KC_RBRC, KC_RPRN, KC_UNDS,      KC_ASTR, KC_4,    KC_5,    KC_6,    KC_QUOT,
+        KC_LT,   KC_LCBR, KC_GT,   KC_RCBR, KC_MINS,      KC_0,    KC_1,    KC_2,    KC_3,    KC_DLR,
                         KC_TRNS, KC_TRNS, KC_TRNS,         KC_TRNS, KC_TRNS, MO(3)
     ),
 
@@ -69,8 +69,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * Left thumb inner = MO(3) → layer 3 when both thumbs held
      */
     [ARR_NAV] = LAYOUT_split_3x5_3(
-        KC_TILD, KC_CIRC, KC_AMPR, KC_TRNS, KC_TRNS,      KC_HOME, KC_PGDN, KC_PGUP, KC_END,  KC_DEL,
-        KC_EXLM, KC_MINS, KC_GRV,  KC_PERC, KC_PIPE,      KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_TRNS,
+        KC_TILD, KC_CIRC, KC_TRNS, KC_PIPE, KC_TRNS,      KC_HOME, KC_PGDN, KC_PGUP, KC_END,  KC_DEL,
+        KC_EXLM, KC_BSLS, KC_GRV,  KC_PERC, KC_DQT,       KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_TRNS,
         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
                         MO(3),   KC_TRNS, KC_TRNS,         KC_TRNS, KC_TRNS, KC_TRNS
     ),
@@ -85,3 +85,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                         KC_TRNS, KC_TRNS, KC_TRNS,         KC_TRNS, KC_TRNS, KC_TRNS
     ),
 };
+
+bool encoder_update_user(uint8_t index, bool clockwise) {
+    tap_code(clockwise ? KC_VOLU : KC_VOLD);
+    return true;
+}
