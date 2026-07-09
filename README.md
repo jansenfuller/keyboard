@@ -43,8 +43,7 @@ Configurations for three split keyboards sharing a 4-layer 5-column layout.
 
 ```
  F1    F2    F3    F4    F5        F6    F7    F8    F9   F10
- F11   F12         RST  BOOT       ←     ↓     ↑     →
- HOME  PGDN  PGUP   END   DEL
+ F11   F12         RST  BOOT       HOME  PGDN  PGUP   END   DEL
 ```
 
 ## Building
