@@ -1,12 +1,7 @@
 /*
- * Copyright (c) 2020 The ZMK Contributors
- *
- * SPDX-License-Identifier: MIT
- *
- * Lily58 keymap — 4-layer layout, 5-column footprint (outer cols &trans).
- * Mac-oriented: GUI = CMD, ALT = Opt.
- * Home-row mods: D=Ctrl, F=Shift, J=Shift, K=Ctrl
- * Combos: D+F = ESC
+ * Lily58 keymap — 4-layer, 5-col footprint. Mac: GUI=CMD, Alt=Opt.
+ * Home-row mods: D=Ctrl F=Shift J=Shift K=Ctrl.  Combo: D+F=ESC
+ * Paired by key: `/~  -/_  /?  '/"  \/|  =/+
  */
 
 #include <dt-bindings/zmk/behaviors.h>
@@ -17,147 +12,54 @@
 
 / {
     behaviors {
-        hml: homerow_mod_left {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "balanced";
-            tapping-term-ms = <200>;
-            require-prior-idle-ms = <150>;
-            bindings = <&kp>, <&kp>;
-            display-name = "HRM Left";
-        };
-
-        hmr: homerow_mod_right {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "balanced";
-            tapping-term-ms = <200>;
-            require-prior-idle-ms = <150>;
-            bindings = <&kp>, <&kp>;
-            display-name = "HRM Right";
-        };
+        hml: homerow_mod_left { compatible="zmk,behavior-hold-tap"; #binding-cells=<2>; flavor="balanced"; tapping-term-ms=<200>; require-prior-idle-ms=<150>; bindings=<&kp>,<&kp>; };
+        hmr: homerow_mod_right { compatible="zmk,behavior-hold-tap"; #binding-cells=<2>; flavor="balanced"; tapping-term-ms=<200>; require-prior-idle-ms=<150>; bindings=<&kp>,<&kp>; };
     };
-
-    combos {
-        compatible = "zmk,combos";
-        esc_combo {
-            timeout-ms = <50>;
-            key-positions = <27 28>;
-            bindings = <&kp ESC>;
-        };
-    };
+    combos { compatible="zmk,combos"; esc_combo { timeout-ms=<50>; key-positions=<27 28>; bindings=<&kp ESC>; }; };
 
     keymap {
         compatible = "zmk,keymap";
 
-        // ==================================================================
-        //  Layer 0 — Letters  (QWERTY + home-row mods)
-        //  Outer columns &trans (outside 5-col footprint)
-        // ==================================================================
-        //
-        //  ┌───────┬───────┬───────┬───────┬───────┬───────┐ ┌───────┬───────┬───────┬───────┬───────┬───────┐
-        //  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
-        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │ TRNS  │   Q   │   W   │   E   │   R   │   T   │ │   Y   │   U   │   I   │   O   │   P   │ TRNS  │
-        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │ TRNS  │ A/CMD │ S/Opt │D/Ctrl │F/Shft │   G   │ │   H   │J/Shft │K/Ctrl │ L/Opt │;/CMD  │ TRNS  │
-        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │ TRNS  │   Z   │   X   │   C   │   V   │   B   │ │   N   │   M   │   ,   │   .   │   /   │ TRNS  │
-        //  └───────┴───────┴───────┴───────┴───────┴───────┘ └───────┴───────┴───────┴───────┴───────┴───────┘
-        //            ┌───────┬───────┬───────┬───────┐         ┌───────┬───────┬───────┬───────┐
-        //            │ TRNS  │ MO(1) │  TAB  │ BSPC  │         │ SPACE │  ENT  │ MO(2) │ TRNS  │
-        //            └───────┴───────┴───────┴───────┘         └───────┴───────┴───────┴───────┘
         default_layer {
-            display-name = "Letters";
             bindings = <
-&trans      &trans  &trans  &trans  &trans  &trans                      &trans  &trans  &trans  &trans  &trans  &trans
-&trans      &kp Q   &kp W   &kp E   &kp R   &kp T                       &kp Y   &kp U   &kp I   &kp O   &kp P   &trans
-&trans      &hml LGUI A &hml LALT S &hml LCTRL D &hml LSHFT F &kp G      &kp H   &hmr RSHFT J &hmr RCTRL K &hmr RALT L &hmr RGUI SEMI &trans
-&trans      &kp Z   &kp X   &kp C   &kp V   &kp B   &trans  &trans      &kp N   &kp M   &kp COMMA &kp DOT &kp FSLH &trans
-                            &trans  &mo 1   &kp TAB &kp BSPC             &kp SPACE &kp RET &mo 2   &trans
+&trans &trans &trans &trans &trans &trans                  &trans &trans &trans &trans &trans &trans
+&trans &kp Q  &kp W  &kp E  &kp R  &kp T                   &kp Y  &kp U  &kp I  &kp O  &kp P  &trans
+&trans &hml LGUI A &hml LALT S &hml LCTRL D &hml LSHFT F &kp G  &kp H &hmr RSHFT J &hmr RCTRL K &hmr RALT L &hmr RGUI SEMI &trans
+&trans &kp Z  &kp X  &kp C  &kp V  &kp B  &trans &trans   &kp N  &kp M  &kp COMMA &kp DOT &kp FSLH &trans
+                        &trans &mo 1  &kp TAB &kp BSPC     &kp SPACE &kp RET &mo 2   &trans
             >;
         };
 
-        // ==================================================================
-        //  Layer 1 — Numbers & Symbols  (left thumb MO(1) held)
-        //  Same-side thumbs transparent
-        // ==================================================================
-        //
-        //  ┌───────┬───────┬───────┬───────┬───────┬───────┐ ┌───────┬───────┬───────┬───────┬───────┬───────┐
-        //  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
-        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │ TRNS  │   #   │   /   │ TRNS  │   @   │   ?   │ │   =   │   7   │   8   │   9   │   +   │ TRNS  │
-        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │ TRNS  │   [   │   (   │   ]   │   )   │   "   │ │   *   │   4   │   5   │   6   │   '   │ TRNS  │
-        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │ TRNS  │   <   │   {   │   >   │   }   │   -   │ │   0   │   1   │   2   │   3   │   $   │ TRNS  │
-        //  └───────┴───────┴───────┴───────┴───────┴───────┘ └───────┴───────┴───────┴───────┴───────┴───────┘
-        //            ┌───────┬───────┬───────┬───────┐         ┌───────┬───────┬───────┬───────┐
-        //            │ TRNS  │ TRNS  │ TRNS  │ TRNS  │         │ TRNS  │ TRNS  │ MO(3) │ TRNS  │
-        //            └───────┴───────┴───────┴───────┘         └───────┴───────┴───────┴───────┘
+        // L1 — Lower symbols + numpad (left thumb)
         num_sym_layer {
-            display-name = "Num & Sym";
             bindings = <
-&trans      &trans  &trans  &trans  &trans  &trans                      &trans  &trans  &trans  &trans  &trans  &trans
-&trans      &kp HASH &kp FSLH &kp AMPS &kp AT   &kp QMARK                &kp EQUAL &kp N7 &kp N8 &kp N9 &kp PLUS  &trans
-&trans      &kp LBKT &kp LPAR &kp RBKT &kp RPAR &kp UNDER               &kp ASTRK &kp N4 &kp N5 &kp N6 &kp SQT   &trans
-&trans      &kp LT   &kp LBRC &kp GT   &kp RBRC &kp MINUS &trans &trans  &kp N0    &kp N1 &kp N2 &kp N3 &kp DOLLAR &trans
-                            &trans  &trans  &trans  &trans              &trans  &trans  &mo 3   &trans
+&trans &trans  &trans  &trans  &trans  &trans              &trans  &trans &trans &trans &trans &trans
+&trans &kp GRAVE &kp FSLH &kp MINUS &kp BSLH &trans        &kp EQUAL &kp N7 &kp N8 &kp N9 &trans &trans
+&trans &kp LBKT &kp LPAR &kp RBKT &kp RPAR &kp EXCL       &kp ASTRK &kp N4 &kp N5 &kp N6 &kp SQT &trans
+&trans &kp LT   &kp LBRC &kp GT   &kp RBRC &trans &trans &trans &kp N0 &kp N1 &kp N2 &kp N3 &kp DOT &trans
+                        &trans &trans  &trans &trans         &trans &trans &mo 3   &trans
             >;
         };
 
-        // ==================================================================
-        //  Layer 2 — Arrows + Overflow Symbols  (right thumb MO(2) held)
-        //  Same-side thumbs transparent
-        // ==================================================================
-        //
-        //  ┌───────┬───────┬───────┬───────┬───────┬───────┐ ┌───────┬───────┬───────┬───────┬───────┬───────┐
-        //  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
-        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │ TRNS  │   ~   │   ^   │   &   │ TRNS  │ TRNS  │ │ HOME  │ PGDN  │ PGUP  │  END  │  DEL  │ TRNS  │
-        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │ TRNS  │   !   │   \   │   `   │   %   │   |   │ │ LEFT  │ DOWN  │  UP   │ RIGHT │ TRNS  │ TRNS  │
-        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
-        //  └───────┴───────┴───────┴───────┴───────┴───────┘ └───────┴───────┴───────┴───────┴───────┴───────┘
-        //            ┌───────┬───────┬───────┬───────┐         ┌───────┬───────┬───────┬───────┐
-        //            │ TRNS  │ MO(3) │ TRNS  │ TRNS  │         │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
-        //            └───────┴───────┴───────┴───────┘         └───────┴───────┴───────┴───────┘
+        // L2 — Upper symbols + arrows at hjkl (right thumb)
         arr_nav_layer {
-            display-name = "Arrows & Nav";
             bindings = <
-&trans      &trans  &trans  &trans  &trans  &trans                      &trans  &trans  &trans  &trans  &trans  &trans
-&trans      &kp TILDE &kp CARET &trans  &kp PIPE  &trans                 &kp HOME &kp PGDN &kp PGUP &kp END &kp DEL  &trans
-&trans      &kp EXCL &kp BSLH &kp GRAVE &kp PERCENT &kp DQT              &kp LEFT &kp DOWN &kp UP  &kp RIGHT &trans &trans
-&trans      &trans  &trans  &trans  &trans  &trans  &trans  &trans      &trans   &trans   &trans &trans   &trans  &trans
-                            &trans  &mo 3   &trans  &trans              &trans   &trans   &trans &trans
+&trans &trans  &trans  &trans  &trans  &trans              &trans  &trans &trans &trans &trans &trans
+&trans &kp TILDE &kp QMARK &kp UNDER &kp PIPE &trans       &kp PLUS &kp AMPS &kp ASTRK &kp CARET &trans &trans
+&trans &kp EXCL &kp AT   &kp HASH &kp DOLLAR &kp PERCENT   &kp LEFT &kp DOWN &kp UP  &kp RIGHT &kp DQT &trans
+&trans &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &trans &trans &trans &trans &trans &trans &trans
+                        &trans &mo 3   &trans &trans         &trans &trans &trans &trans
             >;
         };
 
-        // ==================================================================
-        //  Layer 3 — F-keys + System  (both thumbs held)
-        // ==================================================================
-        //
-        //  ┌───────┬───────┬───────┬───────┬───────┬───────┐ ┌───────┬───────┬───────┬───────┬───────┬───────┐
-        //  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
-        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │ TRNS  │  F1   │  F2   │  F3   │  F4   │  F5   │ │  F6   │  F7   │  F8   │  F9   │  F10  │ TRNS  │
-        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │ TRNS  │  F11  │  F12  │ TRNS  │  RST  │ BOOT  │ │  BT0  │  BT1  │  BT2  │  BT3  │ BTCLR │ TRNS  │
-        //  ├───────┼───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┼───────┤
-        //  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
-        //  └───────┴───────┴───────┴───────┴───────┴───────┘ └───────┴───────┴───────┴───────┴───────┴───────┘
-        //            ┌───────┬───────┬───────┬───────┐         ┌───────┬───────┬───────┬───────┐
-        //            │ TRNS  │ TRNS  │ TRNS  │ TRNS  │         │ TRNS  │ TRNS  │ TRNS  │ TRNS  │
-        //            └───────┴───────┴───────┴───────┘         └───────┴───────┴───────┴───────┘
+        // L3 — Nav + F-keys + system (both thumbs)
         sys_layer {
-            display-name = "System";
             bindings = <
-&trans      &trans  &trans  &trans  &trans  &trans                      &trans  &trans  &trans  &trans  &trans  &trans
-&trans      &kp F1  &kp F2  &kp F3  &kp F4  &kp F5                     &kp F6   &kp F7  &kp F8  &kp F9  &kp F10 &trans
-&trans      &kp F11 &kp F12 &trans  &sys_reset &bootloader              &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_CLR &trans
-&trans      &trans  &trans  &trans  &trans  &trans  &trans  &trans      &trans   &trans   &trans &trans   &trans  &trans
-                            &trans  &trans  &trans  &trans              &trans   &trans   &trans &trans
+&trans &trans &trans &trans &trans &trans                  &trans &trans &trans &trans &trans &trans
+&trans &kp F1  &kp F2 &kp F3 &kp F4 &kp F5                 &kp F6  &kp F7  &kp F8  &kp F9  &kp F10 &trans
+&trans &kp F11 &kp F12 &trans &sys_reset &bootloader       &kp LEFT &kp DOWN &kp UP &kp RIGHT &bt BT_CLR &trans
+&trans &kp HOME &kp PGDN &kp PGUP &kp END &kp DEL &trans &trans &trans &trans &trans &trans &trans &trans
+                        &trans &trans &trans &trans         &trans &trans &trans &trans
             >;
         };
     };

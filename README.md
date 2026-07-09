@@ -1,66 +1,61 @@
 # Keyboard firmware
 
-Firmware configurations for two split keyboards sharing a common layout:
+Configurations for three split keyboards sharing a 4-layer 5-column layout.
 
 | Keyboard | Firmware | Controller |
 |----------|----------|------------|
 | Lily58   | ZMK      | nice!nano v2 |
 | Silakka54 | QMK     | RP2040     |
+| Cheapino  | QMK     | RP2040     |
 
-## Repo structure
+## Keymap
+
+**Home-row mods:** D=Ctrl, F=Shift, J=Shift, K=Ctrl  
+**Combo:** D+F = ESC  
+**Thumbs:** MO(1) TAB BSPC — SPACE ENT MO(2)  
+**Layer 3:** press the opposite layer key while on L1 or L2
+
+### Layer 0 — Default
 
 ```
-├── zmk/          ← ZMK user config (Lily58)
-│   ├── config/   ─ keymap + .conf + west.yml
-│   ├── build.yaml
-│   └── ...
-├── qmk/          ← QMK keymap (Silakka54)
-│   └── keyboards/
-│       └── silakka54/
-│           └── keymaps/default/
-│               └── keymap.c
-└── .github/workflows/build.yml  ← CI builds both
+    Q     W     E     R     T         Y     U     I     O     P
+  A/CMD  S/Opt D/Ctrl F/Shft  G       H  J/Shft K/Ctrl L/Opt ;/CMD
+    Z     X     C     V     B         N     M     ,     .     /
+         MO(1)   TAB   BSPC         SPACE   ENT   MO(2)
 ```
 
-## Layout concept
+### Layer 1 — Lower + Numpad    (left thumb)
 
-Both keyboards share the same 3-row + thumb cluster layout with home-row mods:
+```
+  `     /     -     \                 =     7     8     9
+  [     (     ]     )     !           *     4     5     6     '
+  <     {     >     }                 0     1     2     3     .
+```
 
-| | | | | | |
-|---|---|---|---|---|---|
-| — | Q | W | E | R | T |
-| Y | U | I | O | P | — |
-| ESC | A/GUI | S/Alt | D/Ctrl | F/Shift | G |
-| H | J/Shift | K/Ctrl | L/Alt | ;/GUI | ' |
-| — | Z | X | C | V | B |
-| N | M | , | . | / | — |
+### Layer 2 — Upper + Arrows    (right thumb)
 
-- **Thumbs:** Layer 1, Tab, Backspace | Space, Enter, Layer 2
-- **Shift/Ctrl/Alt/GUI:** home-row hold-tap (D/F/J/K)
-- **Layer 1:** Numerals, symbols, @, %, $ — no Shift needed
-- **Layer 2:** F-keys, navigation, bootloader
+```
+  ~     ?     _     |               +     &     *     ^
+  !     @     #     $     %         ←     ↓     ↑     →     "
+```
 
-## Building locally
+### Layer 3 — Nav + F-keys + System    (both thumbs)
 
-### ZMK (Lily58)
+```
+ F1    F2    F3    F4    F5        F6    F7    F8    F9   F10
+ F11   F12         RST  BOOT       ←     ↓     ↑     →
+ HOME  PGDN  PGUP   END   DEL
+```
+
+## Building
 
 ```bash
-cd zmk/config
-west init -l .
-west update
+# ZMK (Lily58)
+cd zmk/config && west init -l . && west update
 west build -b nice_nano_v2 -- -DSHIELD=lily58_left
 west build -b nice_nano_v2 -- -DSHIELD=lily58_right
-```
 
-### QMK (Silakka54)
-
-```bash
+# QMK
 qmk compile -kb silakka54 -km default
-```
+qmk compile -kb cheapino -km default
 
-## CI
-
-The GitHub Actions workflow builds both firmwares on every push/PR:
-
-- **ZMK:** uses `zmk-build-user-config` with `config_path: zmk/config`
-- **QMK:** clones QMK, copies the keymap, and runs `make silakka54:default`
