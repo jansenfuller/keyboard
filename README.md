@@ -27,7 +27,7 @@ Configurations for three split keyboards sharing a 4-layer 5-column layout.
 ### Layer 1 — Lower + Numpad    (left thumb)
 
 ```
-  `     /     -     \                 =     7     8     9
+  `     /     -     \                 =     7     8     9     +
   [     (     ]     )                 *     4     5     6     '
   <     {     >     }                 0     1     2     3     .
 ```
@@ -35,8 +35,8 @@ Configurations for three split keyboards sharing a 4-layer 5-column layout.
 ### Layer 2 — Upper + Arrows    (right thumb)
 
 ```
-  ~     !     _     |               +     &     *     ^
-  %     @     #     $               ←     ↓     ↑     →     "
+  ~     !     _     |     ^
+  %     @     #     $     &         ←     ↓     ↑     →     "
 ```
 
 ### Layer 3 — Nav + F-keys + System    (both thumbs)
