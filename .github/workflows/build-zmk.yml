@@ -1,0 +1,59 @@
+name: Build ZMK (Lily58)
+on:
+  push:
+    paths:
+      - 'zmk/**'
+      - '.github/workflows/build-zmk.yml'
+    tags:
+      - 'zmk-*'
+  pull_request:
+    paths:
+      - 'zmk/**'
+      - '.github/workflows/build-zmk.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-build-arm:stable
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup workspace
+        run: |
+          cd $GITHUB_WORKSPACE/zmk/config
+          west init -l .
+          git clone --depth 1 --branch v0.3.0 https://github.com/zmkfirmware/zmk.git zmk
+          west update 2>&1
+          west zephyr-export
+
+      - name: Build left
+        run: |
+          cd $GITHUB_WORKSPACE/zmk/config
+          west build -d build/left -s zmk/app -b nice_nano_v2 -- \
+            -DSHIELD=lily58_left \
+            -DZMK_CONFIG="$PWD"
+          mkdir -p /tmp/firmware
+          cp build/left/zephyr/*.uf2 /tmp/firmware/lily58_left.uf2 2>/dev/null || true
+
+      - name: Build right
+        run: |
+          cd $GITHUB_WORKSPACE/zmk/config
+          west build -d build/right -s zmk/app -b nice_nano_v2 -- \
+            -DSHIELD=lily58_right \
+            -DZMK_CONFIG="$PWD"
+          cp build/right/zephyr/*.uf2 /tmp/firmware/lily58_right.uf2 2>/dev/null || true
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: zmk-firmware
+          path: /tmp/firmware/
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/zmk-')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: /tmp/firmware/*
+          generate_release_notes: true
