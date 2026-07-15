@@ -7,7 +7,7 @@
 
 enum layers { BASE = 0, NUM_SYM, ARR_NAV, SYS };
 enum combos { CMB_ESC, CMB_LENGTH };
-const uint16_t PROGMEM esc_combo[] = {KC_BSPC, KC_SPC, COMBO_END};
+const uint16_t PROGMEM esc_combo[] = {KC_D, KC_F, COMBO_END};
 combo_t key_combos[] = { [CMB_ESC] = COMBO(esc_combo, KC_ESC) };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
