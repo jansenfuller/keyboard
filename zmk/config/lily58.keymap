@@ -34,8 +34,8 @@
         num_sym_layer {
             bindings = <
 &trans &trans  &trans  &trans  &trans  &trans              &trans  &trans &trans &trans &trans &trans
-&trans &kp DOT   &kp FSLH &kp MINUS &kp BSLH &trans        &kp EQUAL &kp N7 &kp N8 &kp N9 &kp GRAVE &trans
-&trans &kp LBKT &kp LPAR &kp RBKT &kp RPAR &kp DQT         &kp ASTRK &kp N4 &kp N5 &kp N6 &kp SQT &trans
+&trans &kp DQT   &kp FSLH &kp MINUS &kp BSLH &trans        &kp EQUAL &kp N7 &kp N8 &kp N9 &kp SQT  &trans
+&trans &kp LBKT &kp LPAR &kp RBKT &kp RPAR &trans          &kp ASTRK &kp N4 &kp N5 &kp N6 &kp GRAVE &trans
 &trans &kp LT   &kp LBRC &kp GT   &kp RBRC &trans &trans &trans &kp N0 &kp N1 &kp N2 &kp N3 &kp PLUS &trans
                         &trans &trans  &trans &trans         &trans &trans &mo 3   &trans
             >;
@@ -45,8 +45,8 @@
         arr_nav_layer {
             bindings = <
 &trans &trans  &trans  &trans  &trans  &trans              &trans  &trans &trans &trans &trans &trans
-&trans &kp TILDE &kp EXCL &kp UNDER &trans  &kp CARET      &trans &trans &trans &trans &trans &trans
-&trans &kp PERCENT &kp AT &kp HASH &kp DOLLAR &kp AMPS      &kp LEFT &kp DOWN &kp UP  &kp RIGHT &kp PIPE &trans
+&trans &kp TILDE &kp EXCL &kp UNDER &kp PIPE &kp CARET      &trans &trans &trans &trans &trans &trans
+&trans &kp PERCENT &kp AT &kp HASH &kp DOLLAR &kp AMPS      &kp LEFT &kp DOWN &kp UP  &kp RIGHT &trans
 &trans &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &trans &trans &trans &trans &trans &trans &trans
                         &trans &mo 3   &trans &trans         &trans &trans &trans &trans
             >;
