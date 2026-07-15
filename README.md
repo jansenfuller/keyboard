@@ -6,7 +6,7 @@ Configurations for three split keyboards sharing a 4-layer 5-column layout.
 |----------|----------|------------|
 | Lily58   | ZMK      | nice!nano v2 |
 | Cheapino  | QMK     | RP2040     |
-| Silakka54 | QMK     | RP2040     |
+|  Silakka54 | QMK     | RP2040     |
 
 ## Keymap
 
