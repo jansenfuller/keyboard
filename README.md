@@ -6,13 +6,13 @@ Configurations for three split keyboards sharing a 4-layer 5-column layout.
 |----------|----------|------------|
 | Lily58   | ZMK      | nice!nano v2 |
 | Cheapino  | QMK     | RP2040     |
-|  Silakka54 | QMK     | RP2040     |
+| Silakka54 | QMK     | RP2040     |
 
 ## Keymap
 
-**Home-row mods:** F/J=Shift, D/K=Ctrl, S/L=Alt(Opt), A/;=GUI(CMD)  
-**Combo:** D+F = ESC  
-**Thumbs:** MO(1) TAB BSPC -- SPACE ENT MO(2)  
+**Home-row mods:** F/J=Shift, D/K=Ctrl, S/L=Alt(Opt), A/;=GUI(CMD)
+**Combo:** D+F = ESC
+**Thumbs:** MO(1) TAB BSPC -- SPACE ENT MO(2)
 **Layer 3:** press opposite layer key while on L1 or L2
 
 ### Layer 0 -- Default
@@ -27,16 +27,17 @@ Configurations for three split keyboards sharing a 4-layer 5-column layout.
 ### Layer 1 -- Lower + Numpad (left thumb)
 
 ```
-  "     /     -     \                 =     7     8     9     '
-  {     (     }     )                 *     4     5     6     `
-  <     [     >     ]                 0     1     2     3     +
+  ~     !     _     |     ^         =     7     8     9     "
+  %     @     #     $     &         *     4     5     6     '
+                                    0     1     2     3     +
 ```
 
 ### Layer 2 -- Upper + Arrows (right thumb)
 
 ```
-  ~     !     _     |     ^
-  %     @     #     $     &              <-     <-     ->     ->
+  `     /     -     \
+  {     (     }     )                     <-     <-     ->     ->
+  <     [     >     ]
 ```
 
 ### Layer 3 -- Nav + F-keys + System (both thumbs)

@@ -1,6 +1,6 @@
 /*
  * Lily58 keymap — 4-layer, 5-col footprint. Mac: GUI=CMD, Alt=Opt.
- * Home-row mods: F=Shift J=Shift  D=Ctrl K=Ctrl  S=Alt L=Alt  A=GUI ;=GUI
+ * Home-row mods: F/J=Shift  D/K=Ctrl  S/L=Alt  A/;=GUI  
  * Combo: D+F=ESC
  */
 
@@ -30,35 +30,32 @@
             >;
         };
 
-        // L1 — Lower symbols + numpad (left thumb)
         num_sym_layer {
             bindings = <
 &trans &trans  &trans  &trans  &trans  &trans              &trans  &trans &trans &trans &trans &trans
-&trans &kp DQT   &kp FSLH &kp MINUS &kp BSLH &trans        &kp EQUAL &kp N7 &kp N8 &kp N9 &kp SQT  &trans
-&trans &kp LBRC &kp LPAR &kp RBRC &kp RPAR &trans          &kp ASTRK &kp N4 &kp N5 &kp N6 &kp GRAVE &trans
-&trans &kp LT   &kp LBKT &kp GT   &kp RBKT &trans &trans &trans &kp N0 &kp N1 &kp N2 &kp N3 &kp PLUS &trans
-                        &trans &trans  &trans &trans         &trans &trans &mo 3   &trans
+&trans &kp TILDE &kp EXCL &kp UNDER &kp PIPE &kp CARET    &kp EQUAL &kp N7 &kp N8 &kp N9 &kp DQT &trans
+&trans &kp PERCENT &kp AT &kp HASH &kp DOLLAR &kp AMPS    &kp ASTRK &kp N4 &kp N5 &kp N6 &kp SQT &trans
+&trans &trans  &trans  &trans  &trans  &trans &trans &trans &kp N0 &kp N1 &kp N2 &kp N3 &kp PLUS &trans
+                        &trans &trans  &trans &trans        &trans &trans &mo 3   &trans
             >;
         };
 
-        // L2 — Upper symbols + arrows at hjkl (right thumb)
         arr_nav_layer {
             bindings = <
 &trans &trans  &trans  &trans  &trans  &trans              &trans  &trans &trans &trans &trans &trans
-&trans &kp TILDE &kp EXCL &kp UNDER &kp PIPE &kp CARET      &trans &trans &trans &trans &trans &trans
-&trans &kp PERCENT &kp AT &kp HASH &kp DOLLAR &kp AMPS      &kp LEFT &kp DOWN &kp UP  &kp RIGHT &trans
-&trans &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &trans &trans &trans &trans &trans &trans &trans
+&trans &kp GRAVE &kp FSLH &kp MINUS &kp BSLH &trans        &trans &trans &trans &trans &trans &trans
+&trans &kp LBRC &kp LPAR &kp RBRC &kp RPAR &trans          &kp LEFT &kp DOWN &kp UP  &kp RIGHT &trans &trans
+&trans &kp LT   &kp LBKT &kp GT   &kp RBKT &trans &trans &trans &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &trans &trans
                         &trans &mo 3   &trans &trans         &trans &trans &trans &trans
             >;
         };
 
-        // L3 — Nav + F-keys + system (both thumbs)
         sys_layer {
             bindings = <
 &trans &trans &trans &trans &trans &trans                  &trans &trans &trans &trans &trans &trans
 &trans &kp F1  &kp F2 &kp F3 &kp F4 &kp F5                 &kp F6  &kp F7  &kp F8  &kp F9  &kp F10 &trans
 &trans &kp F11 &kp F12 &trans &sys_reset &bootloader       &kp HOME &kp PGDN &kp PGUP &kp END &kp DEL &trans
-&trans &trans &trans &trans &trans &trans &trans &trans    &bt BT_CLR &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans    &trans &trans &trans &trans &trans &trans
                         &trans &trans &trans &trans         &trans &trans &trans &trans
             >;
         };
