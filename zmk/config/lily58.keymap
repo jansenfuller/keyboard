@@ -15,7 +15,7 @@
         hml: homerow_mod_left { compatible="zmk,behavior-hold-tap"; #binding-cells=<2>; flavor="balanced"; tapping-term-ms=<200>; require-prior-idle-ms=<150>; bindings=<&kp>,<&kp>; };
         hmr: homerow_mod_right { compatible="zmk,behavior-hold-tap"; #binding-cells=<2>; flavor="balanced"; tapping-term-ms=<200>; require-prior-idle-ms=<150>; bindings=<&kp>,<&kp>; };
     };
-    combos { compatible="zmk,combos"; esc_combo { timeout-ms=<50>; key-positions=<53 54>; bindings=<&kp ESC>; }; };
+    combos { compatible="zmk,combos"; esc_combo { timeout-ms=<50>; key-positions=<27 28>; bindings=<&kp ESC>; }; };
 
     keymap {
         compatible = "zmk,keymap";
