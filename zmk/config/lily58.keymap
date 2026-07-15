@@ -35,8 +35,8 @@
             bindings = <
 &trans &trans  &trans  &trans  &trans  &trans              &trans  &trans &trans &trans &trans &trans
 &trans &kp DQT   &kp FSLH &kp MINUS &kp BSLH &trans        &kp EQUAL &kp N7 &kp N8 &kp N9 &kp SQT  &trans
-&trans &kp LBKT &kp LPAR &kp RBKT &kp RPAR &trans          &kp ASTRK &kp N4 &kp N5 &kp N6 &kp GRAVE &trans
-&trans &kp LT   &kp LBRC &kp GT   &kp RBRC &trans &trans &trans &kp N0 &kp N1 &kp N2 &kp N3 &kp PLUS &trans
+&trans &kp LBRC &kp LPAR &kp RBRC &kp RPAR &trans          &kp ASTRK &kp N4 &kp N5 &kp N6 &kp GRAVE &trans
+&trans &kp LT   &kp LBKT &kp GT   &kp RBKT &trans &trans &trans &kp N0 &kp N1 &kp N2 &kp N3 &kp PLUS &trans
                         &trans &trans  &trans &trans         &trans &trans &mo 3   &trans
             >;
         };
