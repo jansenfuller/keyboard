@@ -12,8 +12,8 @@ Configurations for three split keyboards sharing a 4-layer 5-column layout.
 
 **Home-row mods:** F/J=Shift, D/K=Ctrl, S/L=Alt(Opt), A/;=GUI(CMD)
 **Combo:** D+F = ESC
-**Thumbs:** MO(1) TAB BSPC -- SPACE ENT MO(2)
-**Layer 3:** press opposite layer key while on L1 or L2
+**Thumbs:** L1/TAB (tap=Tab hold=L1), BSPC -- SPC, L2/ENT (tap=Enter hold=L2)
+**Layer 3:** via L1+L2 held, or freed thumb MO(3) positions
 
 ### Layer 0 -- Default
 
@@ -21,7 +21,7 @@ Configurations for three split keyboards sharing a 4-layer 5-column layout.
     Q     W     E     R     T         Y     U     I     O     P
   A/CMD  S/Opt D/Ctrl F/Shft  G       H  J/Shft K/Ctrl L/Opt ;/CMD
     Z     X     C     V     B         N     M     ,     .     /
-         MO(1)   TAB   BSPC         SPACE   ENT   MO(2)
+         L1/TAB  BSPC                  SPC    L2/ENT
 ```
 
 ### Layer 1 -- Lower + Numpad (left thumb)
