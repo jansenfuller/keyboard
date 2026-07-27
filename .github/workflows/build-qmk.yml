@@ -43,16 +43,13 @@ jobs:
 
       - name: Copy ${{ matrix.keyboard }}
         run: |
-          ls qmk/keyboards/${{ matrix.keyboard }}/ 2>/dev/null | head -5
-          cp -rv qmk/keyboards/${{ matrix.keyboard }} qmk_firmware/keyboards/
-          echo "--- After copy ---"
-          ls qmk_firmware/keyboards/${{ matrix.keyboard }}/ 2>/dev/null | head -10
+          mkdir -p keyboards
+          cp -r qmk/keyboards/${{ matrix.keyboard }} keyboards/
+          ls keyboards/${{ matrix.keyboard }}/
 
       - name: Build ${{ matrix.keyboard }}
-        working-directory: qmk_firmware
         run: |
-          export QMK_FIRMWARE=$GITHUB_WORKSPACE/qmk_firmware
-          qmk compile -kb ${{ matrix.keyboard }} -km default
+          qmk userspace-compile -kb ${{ matrix.keyboard }} -km default
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
