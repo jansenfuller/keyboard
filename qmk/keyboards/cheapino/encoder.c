@@ -15,7 +15,6 @@ void clicked(void) {
 
 void turned(bool clockwise) {
     if (clockwise != last_turn_clockwise) {
-        // Switched way, reset counter
         last_turn_clockwise = clockwise;
         turns = 0;
     }
@@ -23,18 +22,7 @@ void turned(bool clockwise) {
     if (!(turns%ENCODER_RESOLUTION == 0)) {
         return;
     }
-
-    if (IS_LAYER_ON(4)) {
-        // clockwise ? rgb_matrix_decrease() : rgb_matrix_increase();
-    } else if (IS_LAYER_ON(3)) {
-        tap_code(clockwise ? KC_VOLU : KC_VOLD);
-    } else if (IS_LAYER_ON(2)) {
-        tap_code16(clockwise ? LCTL(KC_TAB) : LCTL(LSFT(KC_TAB)));
-    } else if (IS_LAYER_ON(1)) {
-        tap_code(clockwise ? KC_PGDN : KC_PGUP);
-    } else {
-        tap_code(clockwise ? KC_WH_D : KC_WH_U);
-    }
+    tap_code(clockwise ? KC_VOLU : KC_VOLD);
 }
 
 void blank_column(matrix_row_t current_matrix[], uint8_t col) {
