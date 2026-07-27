@@ -16,6 +16,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container: ghcr.io/qmk/qmk_cli
+    env:
+      QMK_HOME: ${{ github.workspace }}
     strategy:
       fail-fast: false
       matrix:
@@ -34,33 +36,16 @@ jobs:
         run: |
           cp -r keymap/qmk/keyboards/${{ matrix.keyboard }} keyboards/
 
-      - name: Show env
-        run: |
-          echo "QMK_HOME=$(qmk config -ro user.qmk_home 2>/dev/null || echo 'not set')"
-          echo "PWD=$PWD"
-          ls -d keyboards/${{ matrix.keyboard }} 2>/dev/null && echo "keyboard found" || echo "keyboard not found"
-
       - name: Build ${{ matrix.keyboard }}
         run: |
           qmk compile -kb ${{ matrix.keyboard }} -km default
-
-      - name: Locate firmware
-        run: |
-          echo "=== QMK_HOME ==="
-          QHOME=$(qmk config -ro user.qmk_home 2>/dev/null)
-          [ -z "$QHOME" ] && QHOME="$PWD"
-          echo "QMK_HOME=$QHOME"
-          echo "=== Searching ==="
-          find "$QHOME" -name "*.uf2" -o -name "*.hex" -o -name "*.bin" 2>/dev/null || echo "None found"
-          echo "=== .build contents ==="
-          ls -la "$QHOME/.build/" 2>/dev/null || echo "No .build/ at $QHOME/.build/"
-          mkdir -p /tmp/firmware
-          find "$QHOME" -name "*.uf2" -o -name "*.hex" -o -name "*.bin" -exec cp {} /tmp/firmware/ \; 2>/dev/null || true
-          ls -la /tmp/firmware/ || echo "Empty"
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         continue-on-error: true
         with:
           name: qmk-${{ matrix.keyboard }}-firmware
-          path: /tmp/firmware/
+          path: |
+            *.hex
+            *.bin
+            *.uf2
