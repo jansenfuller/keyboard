@@ -38,6 +38,7 @@ jobs:
 
       - name: Build ${{ matrix.keyboard }}
         run: |
+          qmk config user.qmk_home=${{ github.workspace }}
           qmk compile -kb ${{ matrix.keyboard }} -km default
 
       - name: Upload firmware
