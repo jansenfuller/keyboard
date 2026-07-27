@@ -45,6 +45,8 @@ jobs:
           cp -r qmk/keyboards/${{ matrix.keyboard }} qmk_firmware/keyboards/
 
       - name: Build ${{ matrix.keyboard }}
+        env:
+          QMK_FIRMWARE: ${{ github.workspace }}/qmk_firmware
         run: |
           qmk compile -kb ${{ matrix.keyboard }} -km default
 
