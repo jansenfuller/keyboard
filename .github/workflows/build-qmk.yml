@@ -16,8 +16,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container: ghcr.io/qmk/qmk_cli
-    env:
-      QMK_HOME: ${{ github.workspace }}
     strategy:
       fail-fast: false
       matrix:
@@ -25,20 +23,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          repository: qmk/qmk_firmware
           submodules: recursive
 
       - uses: actions/checkout@v4
         with:
-          path: keymap
+          repository: qmk/qmk_firmware
+          path: qmk_firmware
+          submodules: recursive
+
+      - name: Install QMK deps
+        run: |
+          pip install -r qmk_firmware/requirements.txt 2>/dev/null || true
+
+      - name: Configure QMK
+        run: |
+          qmk config user.qmk_home=$GITHUB_WORKSPACE/qmk_firmware
+          qmk config user.overlay_dir=$GITHUB_WORKSPACE
 
       - name: Copy ${{ matrix.keyboard }}
         run: |
-          cp -r keymap/qmk/keyboards/${{ matrix.keyboard }} keyboards/
+          mkdir -p keyboards
+          cp -r qmk/keyboards/${{ matrix.keyboard }} keyboards/
 
       - name: Build ${{ matrix.keyboard }}
         run: |
-          qmk config user.qmk_home=${{ github.workspace }}
           qmk compile -kb ${{ matrix.keyboard }} -km default
 
       - name: Upload firmware
