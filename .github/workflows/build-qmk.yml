@@ -36,10 +36,20 @@ jobs:
 
       - name: Build ${{ matrix.keyboard }}
         run: |
-          make ${{ matrix.keyboard }}:default:uf2
+          make ${{ matrix.keyboard }}:default
+
+      - name: Debug build output
+        run: |
+          echo "=== PWD ===" && pwd
+          echo "=== .build ===" && ls -la .build/ 2>/dev/null || echo "No .build/"
+          echo "=== Firmware files ===" && find . \( -name "*.uf2" -o -name "*.hex" -o -name "*.bin" \) 2>/dev/null || echo "None"
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
+        continue-on-error: true
         with:
           name: qmk-${{ matrix.keyboard }}-firmware
-          path: .build/*.uf2
+          path: |
+            .build/*.uf2
+            .build/*.hex
+            .build/*.bin
