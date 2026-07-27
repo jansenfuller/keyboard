@@ -48,9 +48,12 @@ jobs:
       - name: Build ${{ matrix.keyboard }}
         run: |
           export QMK_FIRMWARE=$GITHUB_WORKSPACE/qmk_firmware
-          echo "QMK_FIRMWARE=$QMK_FIRMWARE"
-          ls "$QMK_FIRMWARE/keyboards/${{ matrix.keyboard }}/" 2>/dev/null || echo "Not found at QMK_FIRMWARE"
-          qmk compile -kb ${{ matrix.keyboard }} -km default
+          echo "=== Trying -kb ==="
+          qmk compile -kb ${{ matrix.keyboard }} -km default 2>&1 || \
+          echo "=== Falling back to make ===" && \
+          QMK_BIN="" make -C qmk_firmware ${{ matrix.keyboard }}:default || \
+          echo "=== Trying file path ===" && \
+          qmk compile -km default qmk_firmware/keyboards/${{ matrix.keyboard }}/keyboard.json
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
