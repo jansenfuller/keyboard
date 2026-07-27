@@ -16,8 +16,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container: ghcr.io/qmk/qmk_cli
-    env:
-      QMK_FIRMWARE: ${{ github.workspace }}/qmk_firmware
     strategy:
       fail-fast: false
       matrix:
@@ -41,6 +39,7 @@ jobs:
         run: |
           qmk config user.qmk_home=$GITHUB_WORKSPACE/qmk_firmware
           qmk config user.overlay_dir=$GITHUB_WORKSPACE
+          echo "QMK FIRMWARE = $GITHUB_WORKSPACE/qmk_firmware"
 
       - name: Copy ${{ matrix.keyboard }}
         run: |
@@ -52,11 +51,8 @@ jobs:
       - name: Build ${{ matrix.keyboard }}
         working-directory: qmk_firmware
         run: |
-          echo "=== PWD: $PWD ==="
-          echo "=== Keyboard exists? ==="
-          test -d keyboards/${{ matrix.keyboard }} && echo "YES" || echo "NO"
-          ls keyboards/${{ matrix.keyboard }}/ 2>/dev/null | head -5
-          make ${{ matrix.keyboard }}:default
+          export QMK_FIRMWARE=$GITHUB_WORKSPACE/qmk_firmware
+          qmk compile -kb ${{ matrix.keyboard }} -km default
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
