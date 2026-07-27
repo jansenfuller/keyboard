@@ -15,8 +15,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: ghcr.io/qmk/qmk_cli
     steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
       - uses: actions/checkout@v4
         with:
           repository: vial-kb/vial-qmk
@@ -26,6 +29,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           path: keymap
+
+      - name: Install toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-arm-none-eabi python3-pip
+          pip3 install qmk
 
       - name: Copy Cheapino
         run: cp -r keymap/qmk/keyboards/cheapino vial-qmk/keyboards/
