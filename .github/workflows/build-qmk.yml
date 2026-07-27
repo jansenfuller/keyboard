@@ -16,6 +16,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container: ghcr.io/qmk/qmk_cli
+    env:
+      QMK_FIRMWARE: ${{ github.workspace }}/qmk_firmware
     strategy:
       fail-fast: false
       matrix:
@@ -45,10 +47,9 @@ jobs:
           cp -r qmk/keyboards/${{ matrix.keyboard }} qmk_firmware/keyboards/
 
       - name: Build ${{ matrix.keyboard }}
-        env:
-          QMK_FIRMWARE: ${{ github.workspace }}/qmk_firmware
+        working-directory: qmk_firmware
         run: |
-          qmk compile -kb ${{ matrix.keyboard }} -km default
+          make ${{ matrix.keyboard }}:default
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
