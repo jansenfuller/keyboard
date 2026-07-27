@@ -24,37 +24,23 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
-
       - uses: actions/checkout@v4
         with:
           repository: qmk/qmk_firmware
           path: qmk_firmware
           submodules: recursive
-
       - name: Install QMK deps
-        run: |
-          pip install -r qmk_firmware/requirements.txt 2>/dev/null || true
-
+        run: pip install -r qmk_firmware/requirements.txt 2>/dev/null || true
       - name: Configure QMK
         run: |
           qmk config user.qmk_home=$GITHUB_WORKSPACE/qmk_firmware
           qmk config user.overlay_dir=$GITHUB_WORKSPACE
-          echo "QMK FIRMWARE = $GITHUB_WORKSPACE/qmk_firmware"
-
       - name: Copy ${{ matrix.keyboard }}
-        run: |
-          cp -r qmk/keyboards/${{ matrix.keyboard }} qmk_firmware/keyboards/
-
+        run: cp -r qmk/keyboards/${{ matrix.keyboard }} qmk_firmware/keyboards/
       - name: Build ${{ matrix.keyboard }}
         run: |
           export QMK_FIRMWARE=$GITHUB_WORKSPACE/qmk_firmware
-          echo "=== Trying -kb ==="
-          qmk compile -kb ${{ matrix.keyboard }} -km default 2>&1 || \
-          echo "=== Falling back to make ===" && \
-          QMK_BIN="" make -C qmk_firmware ${{ matrix.keyboard }}:default || \
-          echo "=== Trying file path ===" && \
-          qmk compile -km default qmk_firmware/keyboards/${{ matrix.keyboard }}/keyboard.json
-
+          qmk compile -kb ${{ matrix.keyboard }} -km default
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         continue-on-error: true
@@ -64,3 +50,6 @@ jobs:
             *.hex
             *.bin
             *.uf2
+            qmk_firmware/*.hex
+            qmk_firmware/*.bin
+            qmk_firmware/*.uf2
