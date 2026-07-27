@@ -49,6 +49,19 @@ jobs:
           cd /tmp/qmk_fw
           make ${{ matrix.keyboard }}:default
 
+      - name: Convert to UF2
+        run: |
+          cd /tmp/qmk_fw
+          for hex in .build/*.hex; do
+            [ -f "$hex" ] || continue
+            uf2="${hex%.hex}.uf2"
+            if [ -f util/uf2conv.py ]; then
+              python3 util/uf2conv.py "$hex" -c -f 0xE48BFF56 -o "$uf2" 2>&1
+            else
+              pip3 install uf2utils 2>/dev/null && uf2conv -f rp2040 -c "$hex" -o "$uf2" 2>&1 || true
+            fi
+          done
+
       - name: Locate firmware
         run: |
           mkdir -p /tmp/firmware
