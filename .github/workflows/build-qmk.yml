@@ -44,11 +44,18 @@ jobs:
 
       - name: Copy ${{ matrix.keyboard }}
         run: |
-          cp -r qmk/keyboards/${{ matrix.keyboard }} qmk_firmware/keyboards/
+          ls qmk/keyboards/${{ matrix.keyboard }}/ 2>/dev/null | head -5
+          cp -rv qmk/keyboards/${{ matrix.keyboard }} qmk_firmware/keyboards/
+          echo "--- After copy ---"
+          ls qmk_firmware/keyboards/${{ matrix.keyboard }}/ 2>/dev/null | head -10
 
       - name: Build ${{ matrix.keyboard }}
         working-directory: qmk_firmware
         run: |
+          echo "=== PWD: $PWD ==="
+          echo "=== Keyboard exists? ==="
+          test -d keyboards/${{ matrix.keyboard }} && echo "YES" || echo "NO"
+          ls keyboards/${{ matrix.keyboard }}/ 2>/dev/null | head -5
           make ${{ matrix.keyboard }}:default
 
       - name: Upload firmware
