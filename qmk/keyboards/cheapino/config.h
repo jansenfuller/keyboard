@@ -9,5 +9,9 @@
 // Pick good defaults for enabling home-row modifiers
 #define TAPPING_TERM 230
 
+// Custom matrix dimensions (physical pins per half)
+#define MATRIX_ROWS 4
+#define MATRIX_COLS 12
+
 // How many "tents" should you turn per action
 #define ENCODER_RESOLUTION 1
