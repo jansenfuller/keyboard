@@ -7,6 +7,8 @@ enum combos { CMB_ESC, CMB_LENGTH };
 const uint16_t PROGMEM esc_combo[] = {KC_D, KC_F, COMBO_END};
 combo_t key_combos[] = { [CMB_ESC] = COMBO(esc_combo, KC_ESC) };
 
+/* Combos are compiled in, not configurable via Vial GUI */
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [BASE] = LAYOUT_split_3x5_3(
         KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,          KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
