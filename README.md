@@ -14,7 +14,7 @@ Left thumbs (inner→outer): TRNS, BSPC, LT(1,TAB)
 Right thumbs (inner→outer): TRNS, SPC, LT(2,ENT)
 
 ```
-        LEFT                          RIGHT
+                       LEFT                                     RIGHT
     ┌───────┬───────┬───────┬───────┬───────┐ ┌───────┬───────┬───────┬───────┬───────┐
 L0  |   Q   |   W   |   E   |   R   |   T   | |   Y   |   U   |   I   |   O   |   P   |
     ├───────┼───────┼───────┼───────┼───────┤ ├───────┼───────┼───────┼───────┼───────┤
