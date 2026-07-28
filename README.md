@@ -1,51 +1,32 @@
 # Keyboard firmware
 
-Configurations for three split keyboards sharing a 4-layer 5-column layout.
+Vial firmware for three split keyboards sharing a 4-layer 5-column layout.
 
-| Keyboard | Firmware | Controller |
-|----------|----------|------------|
-| Lily58   | ZMK      | nice!nano v2 |
-| Cheapino  | QMK     | RP2040     |
-| Silakka54 | QMK     | RP2040     |
+| Keyboard | Controller | Flash |
+|----------|------------|-------|
+| Lily58   | nice!nano v2 | ZMK |
+| Cheapino  | RP2040-Zero | Vial |
+| Silakka54 | RP2040-Zero | Vial |
 
-## Keymap
-
-**Home-row mods:** F/J=Shift, D/K=Ctrl, S/L=Alt(Opt), A/;=GUI(CMD)
-**Combo:** D+F = ESC
-**Thumbs:** L1/TAB (tap=Tab hold=L1), BSPC -- SPC, L2/ENT (tap=Enter hold=L2)
-**Layer 3:** via L1+L2 held, or freed thumb MO(3) positions
-
-### Layer 0 -- Default
+## Layout (4 layers)
 
 ```
-    Q     W     E     R     T         Y     U     I     O     P
-  A/CMD  S/Opt D/Ctrl F/Shft  G       H  J/Shft K/Ctrl L/Opt ;/CMD
-    Z     X     C     V     B         N     M     ,     .     /
-         L1/TAB  BSPC                  SPC    L2/ENT
+Layer 0 — Default                        Layer 1 — Lower + Numpad (left thumb)
+    Q W E R T     Y U I O P               ` / - \         = 7 8 9
+  A S D F G     H J K L ;               [ ( ] ) -       * 4 5 6 '
+    Z X C V B     N M , . /               < { > }         0 1 2 3 .
+                                           L1+Tab        BSPC
+
+Layer 2 — Upper + Arrows (right thumb)   Layer 3 — Nav + System (both thumbs)
+  ~ ?     |         + & * $ %            F1-F5       F6-F10
+      _               ← ↓ ↑ → "          F11 F12 RST BOOT  ← ↓ ↑ →
+  ! @ #     ^                            HOME PGDN PGUP END DEL
+          SPC    L2+Enter                             BT0-3
 ```
 
-### Layer 1 -- Lower + Numpad (left thumb)
-
-```
-  ~     !     _     |     ^         =     7     8     9     '
-  %     @     #     $     &         *     4     5     6     "
-                                    0     1     2     3     +
-```
-
-### Layer 2 -- Upper + Arrows (right thumb)
-
-```
-  `     /     -     \
-  {     (     }     )                     <-     <-     ->     ->
-  <     [     >     ]
-```
-
-### Layer 3 -- Nav + F-keys + System (both thumbs)
-
-```
- F1    F2    F3    F4    F5        F6    F7    F8    F9   F10
- F11   F12         RST  BOOT       HOME  PGDN  PGUP   END   DEL
-```
+**Home-row mods:** F/J=Shift, D/K=Ctrl, S/L=Alt, A/;=GUI  
+**Combo:** D+F = ESC (QMK), Space+Backspace = ESC (ZMK)  
+**Encoder (Cheapino):** volume rotation, play/pause click
 
 ## Building
 
@@ -54,7 +35,14 @@ Configurations for three split keyboards sharing a 4-layer 5-column layout.
 cd zmk/config && west init -l . && west update
 west build -b nice_nano_v2 -- -DSHIELD=lily58_left
 
-# QMK
-qmk compile -kb cheapino -km default
-qmk compile -kb silakka54 -km default
+# Vial (Cheapino / Silakka54) — requires vial-qmk
+git clone https://github.com/vial-kb/vial-qmk
+cd vial-qmk && make git-submodule
+make cheapino:vial
+make silakka54:vial
 ```
+
+## CI
+
+- `build-zmk.yml` — Lily58 (ZMK)
+- `build-qmk.yml` — Cheapino + Silakka54 (Vial)
