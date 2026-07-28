@@ -1,11 +1,11 @@
-name: Build QMK
+name: Build Vial Firmware
 on:
   push:
     paths:
       - 'qmk/**'
       - '.github/workflows/build-qmk.yml'
     tags:
-      - 'qmk-*'
+      - 'vial-*'
   pull_request:
     paths:
       - 'qmk/**'
@@ -15,41 +15,54 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: ghcr.io/qmk/qmk_cli
     strategy:
       fail-fast: false
       matrix:
         keyboard: [silakka54, cheapino]
     steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
       - uses: actions/checkout@v4
         with:
+          repository: vial-kb/vial-qmk
+          path: vial-qmk
           submodules: recursive
+
       - uses: actions/checkout@v4
         with:
-          repository: qmk/qmk_firmware
-          path: qmk_firmware
-          submodules: recursive
-      - name: Install QMK deps
-        run: pip install -r qmk_firmware/requirements.txt 2>/dev/null || true
-      - name: Configure QMK
+          path: keymap
+
+      - name: Install toolchain
         run: |
-          qmk config user.qmk_home=$GITHUB_WORKSPACE/qmk_firmware
-          qmk config user.overlay_dir=$GITHUB_WORKSPACE
+          sudo apt-get update
+          sudo apt-get install -y gcc-arm-none-eabi
+          pip3 install qmk
+
       - name: Copy ${{ matrix.keyboard }}
-        run: cp -r qmk/keyboards/${{ matrix.keyboard }} qmk_firmware/keyboards/
+        run: cp -r keymap/qmk/keyboards/${{ matrix.keyboard }} vial-qmk/keyboards/
+
       - name: Build ${{ matrix.keyboard }}
-        run: |
-          export QMK_FIRMWARE=$GITHUB_WORKSPACE/qmk_firmware
-          qmk compile -kb ${{ matrix.keyboard }} -km default
+        working-directory: vial-qmk
+        run: make ${{ matrix.keyboard }}:vial
+
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         continue-on-error: true
         with:
-          name: qmk-${{ matrix.keyboard }}-firmware
+          name: ${{ matrix.keyboard }}-vial-firmware
           path: |
-            *.hex
-            *.bin
-            *.uf2
-            qmk_firmware/*.hex
-            qmk_firmware/*.bin
-            qmk_firmware/*.uf2
+            vial-qmk/*.hex
+            vial-qmk/*.bin
+            vial-qmk/*.uf2
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/vial-')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            vial-qmk/*.hex
+            vial-qmk/*.bin
+            vial-qmk/*.uf2
+          generate_release_notes: true
