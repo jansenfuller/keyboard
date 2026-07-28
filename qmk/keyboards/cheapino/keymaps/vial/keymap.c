@@ -19,14 +19,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TILD, KC_EXLM, KC_UNDS, KC_PIPE, KC_CIRC,      KC_EQL,  KC_7,    KC_8,    KC_9,    KC_QUOT,
         KC_PERC, KC_AT,   KC_HASH, KC_DLR,  KC_AMPR,      KC_ASTR, KC_4,    KC_5,    KC_6,    KC_DQT,
         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,      KC_0,    KC_1,    KC_2,    KC_3,    KC_PLUS,
-                        KC_TRNS, KC_TRNS, KC_TRNS,         KC_TRNS, KC_TRNS, MO(3)
+                        KC_TRNS, KC_TRNS, MO(3),           KC_TRNS, KC_TRNS, MO(3)
     ),
     // L2 — Brackets + arrows at hjkl (right thumb)
     [ARR_NAV] = LAYOUT_split_3x5_3(
         KC_GRV,  KC_SLSH, KC_MINS, KC_BSLS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
         KC_LCBR, KC_LPRN, KC_RCBR, KC_RPRN, KC_TRNS,      KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_TRNS,
         KC_LT,   KC_LBRC, KC_GT,   KC_RBRC, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-                        MO(3),   KC_TRNS, KC_TRNS,         KC_TRNS, KC_TRNS, KC_TRNS
+                        KC_TRNS, KC_TRNS, MO(3),           KC_TRNS, KC_TRNS, MO(3)
     ),
     // L3 — Nav + F-keys + system (both thumbs)
     [SYS] = LAYOUT_split_3x5_3(
