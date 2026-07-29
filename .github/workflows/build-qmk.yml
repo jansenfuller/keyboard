@@ -51,17 +51,14 @@ jobs:
           cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/default/vial.json "$KPDIR/"
           cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/default/config.h "$KPDIR/"
           cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/default/rules.mk "$KPDIR/"
-          # Add combo definitions to stock keymap.c (needed by COMBO_ENABLE)
-          cat >> "$KPDIR/keymap.c" << 'EOF'
-
-enum combos { CMB_ESC, CMB_CAPS, CMB_LENGTH };
-const uint16_t PROGMEM esc_combo[] = {KC_D, KC_F, COMBO_END};
-const uint16_t PROGMEM caps_combo[] = {KC_F, KC_J, COMBO_END};
-combo_t key_combos[] = {
-    [CMB_ESC]  = COMBO(esc_combo, KC_ESC),
-    [CMB_CAPS] = COMBO(caps_combo, KC_CAPS),
-};
-EOF
+          # Add combo definitions to stock keymap.c
+          echo 'enum combos { CMB_ESC, CMB_CAPS, CMB_LENGTH };' >> "$KPDIR/keymap.c"
+          echo 'const uint16_t PROGMEM esc_combo[] = {KC_D, KC_F, COMBO_END};' >> "$KPDIR/keymap.c"
+          echo 'const uint16_t PROGMEM caps_combo[] = {KC_F, KC_J, COMBO_END};' >> "$KPDIR/keymap.c"
+          echo 'combo_t key_combos[] = {' >> "$KPDIR/keymap.c"
+          echo '    [CMB_ESC]  = COMBO(esc_combo, KC_ESC),' >> "$KPDIR/keymap.c"
+          echo '    [CMB_CAPS] = COMBO(caps_combo, KC_CAPS),' >> "$KPDIR/keymap.c"
+          echo '};' >> "$KPDIR/keymap.c"
       - name: Build ${{ matrix.keyboard }}
         working-directory: qmk_fw
         run: make ${{ matrix.keyboard }}:default
