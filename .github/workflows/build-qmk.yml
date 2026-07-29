@@ -50,6 +50,8 @@ jobs:
       - name: Copy keymap
         run: |
           cp -r keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps qmk_fw/keyboards/${{ matrix.keyboard }}/
+          # Fix fork's matrix.c incompatibility with its own debounce.h
+          sed -i 's/debounce_init(MATRIX_ROWS)/debounce_init()/g' qmk_fw/keyboards/${{ matrix.keyboard }}/matrix.c 2>/dev/null || true
 
       - name: Build ${{ matrix.keyboard }}
         working-directory: qmk_fw
