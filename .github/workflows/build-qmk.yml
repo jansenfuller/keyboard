@@ -51,6 +51,8 @@ jobs:
         run: |
           cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/default/keymap.c qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/default/
           cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/default/rules.mk qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/default/ 2>/dev/null || true
+          # Fix fork's debounce incompatibility
+          sed -i 's/debounce_init(MATRIX_ROWS)/debounce_init()/g' qmk_fw/keyboards/${{ matrix.keyboard }}/matrix.c 2>/dev/null || true
 
       - name: Build ${{ matrix.keyboard }}
         working-directory: qmk_fw
