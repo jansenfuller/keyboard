@@ -116,7 +116,7 @@ void matrix_init_custom(void) {
     unselect_rows();
     setPinInput(row_pins[MATRIX_ROWS-1]);
     writePinHigh(row_pins[MATRIX_ROWS-1]);
-    debounce_init(MATRIX_ROWS);
+    debounce_init();
 }
 
 void store_old_matrix(matrix_row_t current_matrix[]) {
