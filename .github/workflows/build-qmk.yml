@@ -18,7 +18,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        keyboard: [silakka54, cheapino]
+        include:
+          - keyboard: cheapino
+            repo: tompi/qmk_firmware
+            ref: cheapinov2
+          - keyboard: silakka54
+            repo: vial-kb/vial-qmk
+            ref: vial
     steps:
       - uses: actions/setup-python@v5
         with:
@@ -26,8 +32,9 @@ jobs:
 
       - uses: actions/checkout@v4
         with:
-          repository: vial-kb/vial-qmk
-          path: vial-qmk
+          repository: ${{ matrix.repo }}
+          ref: ${{ matrix.ref }}
+          path: qmk_fw
           submodules: recursive
 
       - uses: actions/checkout@v4
@@ -41,10 +48,10 @@ jobs:
           pip3 install qmk
 
       - name: Copy ${{ matrix.keyboard }}
-        run: cp -r keymap/qmk/keyboards/${{ matrix.keyboard }} vial-qmk/keyboards/
+        run: cp -r keymap/qmk/keyboards/${{ matrix.keyboard }} qmk_fw/keyboards/
 
       - name: Build ${{ matrix.keyboard }}
-        working-directory: vial-qmk
+        working-directory: qmk_fw
         run: make ${{ matrix.keyboard }}:vial
 
       - name: Upload firmware
@@ -53,16 +60,16 @@ jobs:
         with:
           name: ${{ matrix.keyboard }}-vial-firmware
           path: |
-            vial-qmk/*.hex
-            vial-qmk/*.bin
-            vial-qmk/*.uf2
+            qmk_fw/*.hex
+            qmk_fw/*.bin
+            qmk_fw/*.uf2
 
       - name: Publish release
         if: startsWith(github.ref, 'refs/tags/vial-')
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            vial-qmk/*.hex
-            vial-qmk/*.bin
-            vial-qmk/*.uf2
+            qmk_fw/*.hex
+            qmk_fw/*.bin
+            qmk_fw/*.uf2
           generate_release_notes: true
