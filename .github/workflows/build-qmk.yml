@@ -20,11 +20,11 @@ jobs:
       matrix:
         include:
           - keyboard: cheapino
-            repo: tompi/qmk_firmware
-            ref: cheapinov2
+            repo: vial-kb/vial-qmk
+            ref: vial
           - keyboard: silakka54
-            repo: qmk/qmk_firmware
-            ref: master
+            repo: vial-kb/vial-qmk
+            ref: vial
     steps:
       - uses: actions/setup-python@v5
         with:
@@ -47,19 +47,30 @@ jobs:
           sudo apt-get install -y gcc-arm-none-eabi
           pip3 install qmk
 
-      - name: Copy keymap
+      - name: Overlay keyboard & keymap (Cheapino only)
+        if: matrix.keyboard == 'cheapino'
         run: |
-          mkdir -p qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/custom
-          cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/custom/keymap.c qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/custom/
-          cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/custom/rules.mk qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/custom/ 2>/dev/null || true
-          # Fix fork's debounce incompatibility
-          sed -i 's/debounce_init(MATRIX_ROWS)/debounce_init()/g' qmk_fw/keyboards/${{ matrix.keyboard }}/matrix.c 2>/dev/null || true
+          mkdir -p qmk_fw/keyboards/cheapino/keymaps/custom
+          cp keymap/qmk/keyboards/cheapino/keyboard.json qmk_fw/keyboards/cheapino/
+          cp keymap/qmk/keyboards/cheapino/config.h     qmk_fw/keyboards/cheapino/
+          cp keymap/qmk/keyboards/cheapino/matrix.c     qmk_fw/keyboards/cheapino/
+          cp keymap/qmk/keyboards/cheapino/cheapino.c   qmk_fw/keyboards/cheapino/
+          cp keymap/qmk/keyboards/cheapino/rules.mk     qmk_fw/keyboards/cheapino/
+          cp keymap/qmk/keyboards/cheapino/encoder.c    qmk_fw/keyboards/cheapino/
+          cp keymap/qmk/keyboards/cheapino/halconf.h    qmk_fw/keyboards/cheapino/
+          cp keymap/qmk/keyboards/cheapino/mcuconf.h    qmk_fw/keyboards/cheapino/
+          cp keymap/qmk/keyboards/cheapino/ghosting.c   qmk_fw/keyboards/cheapino/
+          cp keymap/qmk/keyboards/cheapino/keymaps/custom/* qmk_fw/keyboards/cheapino/keymaps/custom/
+
+      - name: Overlay keymap (Silakka54 only)
+        if: matrix.keyboard == 'silakka54'
+        run: |
+          mkdir -p qmk_fw/keyboards/silakka54/keymaps/custom
+          cp keymap/qmk/keyboards/silakka54/keymaps/custom/* qmk_fw/keyboards/silakka54/keymaps/custom/
 
       - name: Build ${{ matrix.keyboard }}
         working-directory: qmk_fw
-        run: |
-          rm -rf .build
-          make ${{ matrix.keyboard }}:custom
+        run: make ${{ matrix.keyboard }}:custom
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
