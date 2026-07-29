@@ -9,7 +9,10 @@
 // Pick good defaults for enabling home-row modifiers
 #define TAPPING_TERM 230
 
-// Custom matrix dimensions (physical pins per half)
+#define WS2812_DI_PIN GP16
+#define RGBLIGHT_LED_COUNT 1
+
+// Custom matrix dimensions
 #define MATRIX_ROWS 4
 #define MATRIX_COLS 12
 
