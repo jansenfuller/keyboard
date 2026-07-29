@@ -95,3 +95,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                     QK_BOOT, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS
     ),
 };
+
+/* Manual combos (Vial reserves key_combos[] for its own combo system) */
+static bool d_held = false;
+static bool f_held = false;
+static bool j_held = false;
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    // D+F = ESC
+    if (keycode == LCTL_T(KC_D)) {
+        d_held = record->event.pressed;
+        if (d_held && f_held) { tap_code(KC_ESC); d_held = f_held = false; return false; }
+    }
+    if (keycode == LSFT_T(KC_F)) {
+        f_held = record->event.pressed;
+        if (d_held && f_held) { tap_code(KC_ESC); d_held = f_held = false; return false; }
+    }
+    // F+J = Caps Lock toggle
+    if (keycode == RSFT_T(KC_J)) {
+        j_held = record->event.pressed;
+        if (f_held && j_held) { tap_code(KC_CAPS); f_held = j_held = false; return false; }
+    }
+    return true;
+}
