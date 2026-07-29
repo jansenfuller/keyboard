@@ -57,6 +57,7 @@ jobs:
           cp keymap/qmk/keyboards/cheapino/cheapino.c   qmk_fw/keyboards/cheapino/
           cp keymap/qmk/keyboards/cheapino/rules.mk     qmk_fw/keyboards/cheapino/
           cp keymap/qmk/keyboards/cheapino/encoder.c    qmk_fw/keyboards/cheapino/
+          cp keymap/qmk/keyboards/cheapino/encoder.h    qmk_fw/keyboards/cheapino/
           cp keymap/qmk/keyboards/cheapino/halconf.h    qmk_fw/keyboards/cheapino/
           cp keymap/qmk/keyboards/cheapino/mcuconf.h    qmk_fw/keyboards/cheapino/
           cp keymap/qmk/keyboards/cheapino/ghosting.c   qmk_fw/keyboards/cheapino/
