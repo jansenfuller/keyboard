@@ -47,25 +47,14 @@ jobs:
           sudo apt-get install -y gcc-arm-none-eabi
           pip3 install qmk
 
-      - name: Debug v2 matrix
-        if: matrix.keyboard == 'cheapino'
-        run: |
-          echo "=== v2 keyboard.json ==="
-          cat qmk_fw/keyboards/cheapino/info.json 2>/dev/null || cat qmk_fw/keyboards/cheapino/keyboard.json 2>/dev/null || echo "No keyboard def found"
-          echo "=== v2 matrix.c ==="
-          head -5 qmk_fw/keyboards/cheapino/matrix.c 2>/dev/null || echo "No matrix.c"
-          echo "=== v2 stock keymap ==="
-          cat qmk_fw/keyboards/cheapino/keymaps/default/keymap.c 2>/dev/null || cat qmk_fw/keyboards/cheapino/keymaps/vial/keymap.c 2>/dev/null || echo "No keymap found"
-
       - name: Patch cheapino
         if: matrix.keyboard == 'cheapino'
         run: |
           sed -i 's/debounce_init(MATRIX_ROWS)/debounce_init()/g' qmk_fw/keyboards/cheapino/matrix.c 2>/dev/null || true
 
-      - name: Overlay keymap (Silakka54 only)
-        if: matrix.keyboard == 'silakka54'
+      - name: Overlay keymap
         run: |
-          cp keymap/qmk/keyboards/silakka54/keymaps/default/keymap.c qmk_fw/keyboards/silakka54/keymaps/default/
+          cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/default/keymap.c qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/default/
 
       - name: Build ${{ matrix.keyboard }}
         working-directory: qmk_fw
