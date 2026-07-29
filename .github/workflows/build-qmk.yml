@@ -47,11 +47,14 @@ jobs:
           sudo apt-get install -y gcc-arm-none-eabi
           pip3 install qmk
 
-      - name: Copy keymap
+      - name: Patch and prepare
         run: |
-          cp -r keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps qmk_fw/keyboards/${{ matrix.keyboard }}/
           # Fix fork's matrix.c incompatibility with its own debounce.h
           sed -i 's/debounce_init(MATRIX_ROWS)/debounce_init()/g' qmk_fw/keyboards/${{ matrix.keyboard }}/matrix.c 2>/dev/null || true
+          # Copy only the vial.json and config for our layout (use stock keymap.c for correct v2 matrix)
+          cp -r keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/vial/vial.json qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/vial/
+          cp -r keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/vial/config.h qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/vial/
+          cp -r keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/vial/rules.mk qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/vial/
 
       - name: Build ${{ matrix.keyboard }}
         working-directory: qmk_fw
