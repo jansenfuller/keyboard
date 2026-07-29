@@ -45,16 +45,11 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y gcc-arm-none-eabi
-          pip3 install qmk
 
-      - name: Patch cheapino
-        if: matrix.keyboard == 'cheapino'
-        run: |
-          sed -i 's/debounce_init(MATRIX_ROWS)/debounce_init()/g' qmk_fw/keyboards/cheapino/matrix.c 2>/dev/null || true
-
-      - name: Overlay keymap
+      - name: Copy keymap
         run: |
           cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/default/keymap.c qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/default/
+          cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/default/rules.mk qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/default/ 2>/dev/null || true
 
       - name: Build ${{ matrix.keyboard }}
         working-directory: qmk_fw
@@ -69,13 +64,3 @@ jobs:
             qmk_fw/*.hex
             qmk_fw/*.bin
             qmk_fw/*.uf2
-
-      - name: Publish release
-        if: startsWith(github.ref, 'refs/tags/qmk-')
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            qmk_fw/*.hex
-            qmk_fw/*.bin
-            qmk_fw/*.uf2
-          generate_release_notes: true
