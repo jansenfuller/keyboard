@@ -60,6 +60,7 @@ jobs:
           cp keymap/qmk/keyboards/cheapino/halconf.h    qmk_fw/keyboards/cheapino/
           cp keymap/qmk/keyboards/cheapino/mcuconf.h    qmk_fw/keyboards/cheapino/
           cp keymap/qmk/keyboards/cheapino/ghosting.c   qmk_fw/keyboards/cheapino/
+          cp keymap/qmk/keyboards/cheapino/ghosting.h   qmk_fw/keyboards/cheapino/
           cp keymap/qmk/keyboards/cheapino/keymaps/custom/* qmk_fw/keyboards/cheapino/keymaps/custom/
 
       - name: Overlay keymap (Silakka54 only)
