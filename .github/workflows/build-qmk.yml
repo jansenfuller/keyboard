@@ -29,36 +29,42 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
       - uses: actions/checkout@v4
         with:
           repository: ${{ matrix.repo }}
           ref: ${{ matrix.ref }}
           path: qmk_fw
           submodules: recursive
-
       - uses: actions/checkout@v4
         with:
           path: keymap
-
       - name: Install toolchain
         run: |
           sudo apt-get update
           sudo apt-get install -y gcc-arm-none-eabi
           pip3 install qmk
-
       - name: Patch and prepare
         run: |
           sed -i 's/debounce_init(MATRIX_ROWS)/debounce_init()/g' qmk_fw/keyboards/${{ matrix.keyboard }}/matrix.c 2>/dev/null || true
-          # Overlay our Vial config into the existing default keymap (keep stock keymap.c for correct matrix)
-          cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/default/vial.json qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/default/
-          cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/default/config.h qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/default/
-          cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/default/rules.mk qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/default/
+          KPDIR="qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/default"
+          # Overlay our Vial config into existing default keymap
+          cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/default/vial.json "$KPDIR/"
+          cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/default/config.h "$KPDIR/"
+          cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/default/rules.mk "$KPDIR/"
+          # Add combo definitions to stock keymap.c (needed by COMBO_ENABLE)
+          cat >> "$KPDIR/keymap.c" << 'EOF'
 
+enum combos { CMB_ESC, CMB_CAPS, CMB_LENGTH };
+const uint16_t PROGMEM esc_combo[] = {KC_D, KC_F, COMBO_END};
+const uint16_t PROGMEM caps_combo[] = {KC_F, KC_J, COMBO_END};
+combo_t key_combos[] = {
+    [CMB_ESC]  = COMBO(esc_combo, KC_ESC),
+    [CMB_CAPS] = COMBO(caps_combo, KC_CAPS),
+};
+EOF
       - name: Build ${{ matrix.keyboard }}
         working-directory: qmk_fw
         run: make ${{ matrix.keyboard }}:default
-
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         continue-on-error: true
@@ -68,7 +74,6 @@ jobs:
             qmk_fw/*.hex
             qmk_fw/*.bin
             qmk_fw/*.uf2
-
       - name: Publish release
         if: startsWith(github.ref, 'refs/tags/vial-')
         uses: softprops/action-gh-release@v2
