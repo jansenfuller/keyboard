@@ -4,8 +4,8 @@
 
 enum layers { BASE = 0, NUM_SYM, ARR_NAV, SYS };
 enum combos { CMB_ESC, CMB_CAPS, CMB_LENGTH };
-const uint16_t PROGMEM esc_combo[]  = {KC_D, KC_F, COMBO_END};
-const uint16_t PROGMEM caps_combo[] = {KC_F, KC_J, COMBO_END};
+const uint16_t PROGMEM esc_combo[]  = {LCTL_T(KC_D), LSFT_T(KC_F), COMBO_END};
+const uint16_t PROGMEM caps_combo[] = {LSFT_T(KC_F), RSFT_T(KC_J), COMBO_END};
 combo_t key_combos[] = {
     [CMB_ESC]  = COMBO(esc_combo,  KC_ESC),
     [CMB_CAPS] = COMBO(caps_combo, KC_CAPS),
