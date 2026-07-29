@@ -37,24 +37,44 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 // Manual combos — Vial reserves key_combos[] for its own system
-static bool d_held = false;
-static bool f_held = false;
-static bool j_held = false;
+// Use timer-based approach to match COMBO_TERM 60 behavior
+#define COMBO_WINDOW 60
+
+static uint16_t d_time = 0;
+static uint16_t f_time = 0;
+static uint16_t j_time = 0;
+static bool     d_held = false;
+static bool     f_held = false;
+static bool     j_held = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    // D+F = ESC
+    uint16_t now = timer_read();
+
+    // D+F = ESC (both must be pressed within COMBO_WINDOW ms)
     if (keycode == LCTL_T(KC_D)) {
-        d_held = record->event.pressed;
-        if (d_held && f_held) { tap_code(KC_ESC); d_held = f_held = false; return false; }
+        if (record->event.pressed) { d_time = now; d_held = true; }
+        else                         { d_held = false; }
+        if (d_held && f_held && timer_elapsed(f_time) < COMBO_WINDOW) {
+            tap_code(KC_ESC); d_held = f_held = false; return false;
+        }
     }
     if (keycode == LSFT_T(KC_F)) {
-        f_held = record->event.pressed;
-        if (d_held && f_held) { tap_code(KC_ESC); d_held = f_held = false; return false; }
+        if (record->event.pressed) { f_time = now; f_held = true; }
+        else                         { f_held = false; }
+        if (d_held && f_held && timer_elapsed(d_time) < COMBO_WINDOW) {
+            tap_code(KC_ESC); d_held = f_held = false; return false;
+        }
+        // F+J = Caps Lock
+        if (f_held && j_held && timer_elapsed(j_time) < COMBO_WINDOW) {
+            tap_code(KC_CAPS); f_held = j_held = false; return false;
+        }
     }
-    // F+J = Caps Lock
     if (keycode == RSFT_T(KC_J)) {
-        j_held = record->event.pressed;
-        if (f_held && j_held) { tap_code(KC_CAPS); f_held = j_held = false; return false; }
+        if (record->event.pressed) { j_time = now; j_held = true; }
+        else                         { j_held = false; }
+        if (f_held && j_held && timer_elapsed(f_time) < COMBO_WINDOW) {
+            tap_code(KC_CAPS); f_held = j_held = false; return false;
+        }
     }
     return true;
 }
