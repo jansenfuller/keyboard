@@ -47,8 +47,9 @@ jobs:
           sudo apt-get install -y gcc-arm-none-eabi
           pip3 install qmk
 
-      - name: Copy ${{ matrix.keyboard }}
-        run: cp -r keymap/qmk/keyboards/${{ matrix.keyboard }} qmk_fw/keyboards/
+      - name: Copy keymap
+        run: |
+          cp -r keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps qmk_fw/keyboards/${{ matrix.keyboard }}/
 
       - name: Build ${{ matrix.keyboard }}
         working-directory: qmk_fw
