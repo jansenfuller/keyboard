@@ -49,16 +49,15 @@ jobs:
 
       - name: Patch and prepare
         run: |
-          # Fix fork's matrix.c incompatibility with its own debounce.h
           sed -i 's/debounce_init(MATRIX_ROWS)/debounce_init()/g' qmk_fw/keyboards/${{ matrix.keyboard }}/matrix.c 2>/dev/null || true
-          # Copy only the vial.json and config for our layout (use stock keymap.c for correct v2 matrix)
-          cp -r keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/vial/vial.json qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/vial/
-          cp -r keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/vial/config.h qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/vial/
-          cp -r keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/vial/rules.mk qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/vial/
+          # Overlay our Vial config into the existing default keymap (keep stock keymap.c for correct matrix)
+          cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/default/vial.json qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/default/
+          cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/default/config.h qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/default/
+          cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/default/rules.mk qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/default/
 
       - name: Build ${{ matrix.keyboard }}
         working-directory: qmk_fw
-        run: make ${{ matrix.keyboard }}:vial
+        run: make ${{ matrix.keyboard }}:default
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
