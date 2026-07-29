@@ -4,7 +4,13 @@
 
 enum layers { BASE = 0, NUM_SYM, ARR_NAV, SYS };
 
-/* Manual D+F=ESC combo (Vial reserves key_combos[] for its own combo system) */
+enum combos { CMB_ESC, CMB_CAPS, CMB_LENGTH };
+const uint16_t PROGMEM esc_combo[] = {KC_D, KC_F, COMBO_END};
+const uint16_t PROGMEM caps_combo[] = {KC_F, KC_J, COMBO_END};
+combo_t key_combos[] = {
+    [CMB_ESC] = COMBO(esc_combo, KC_ESC),
+    [CMB_CAPS] = COMBO(caps_combo, KC_CAPS),
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [BASE] = LAYOUT_split_3x5_3(
@@ -36,26 +42,3 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                         KC_TRNS, KC_TRNS, KC_TRNS,         KC_TRNS, KC_TRNS, KC_TRNS
     ),
 };
-
-/* Manual combos (Vial reserves key_combos[] for its own combo system) */
-static bool d_held = false;
-static bool f_held = false;
-static bool j_held = false;
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    // D+F = ESC
-    if (keycode == LCTL_T(KC_D)) {
-        d_held = record->event.pressed;
-        if (d_held && f_held) { tap_code(KC_ESC); d_held = f_held = false; return false; }
-    }
-    if (keycode == LSFT_T(KC_F)) {
-        f_held = record->event.pressed;
-        if (d_held && f_held) { tap_code(KC_ESC); d_held = f_held = false; return false; }
-    }
-    // F+J = Caps Lock toggle
-    if (keycode == RSFT_T(KC_J)) {
-        j_held = record->event.pressed;
-        if (f_held && j_held) { tap_code(KC_CAPS); f_held = j_held = false; return false; }
-    }
-    return true;
-}
