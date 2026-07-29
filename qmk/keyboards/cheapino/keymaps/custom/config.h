@@ -1,5 +1,5 @@
 // Timing
-#define COMBO_TERM 80
+#define COMBO_TERM 60
 #define TAPPING_TERM 150
 #define PERMISSIVE_HOLD
 #define QUICK_TAP_TERM 0
