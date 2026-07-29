@@ -49,6 +49,7 @@ jobs:
 
       - name: Copy keymap
         run: |
+          mkdir -p qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/custom
           cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/custom/keymap.c qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/custom/
           cp keymap/qmk/keyboards/${{ matrix.keyboard }}/keymaps/custom/rules.mk qmk_fw/keyboards/${{ matrix.keyboard }}/keymaps/custom/ 2>/dev/null || true
           # Fix fork's debounce incompatibility
