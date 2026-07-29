@@ -58,7 +58,7 @@ jobs:
         working-directory: qmk_fw
         run: |
           rm -rf .build
-          make ${{ matrix.keyboard }}:default
+          make ${{ matrix.keyboard }}:custom
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
