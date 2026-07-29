@@ -21,7 +21,7 @@
 #define RGBLIGHT_RAINBOW_SWIRL_RANGE 255
 
 // Home-row mod timing
-#define TAPPING_TERM 230
+// (set at keymap level)
 
 // Encoder
 #define ENCODER_RESOLUTION 1
