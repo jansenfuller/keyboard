@@ -1,4 +1,4 @@
-/* Cheapino v2 — Vial-compatible keymap. Home-row mods: F=Shift, J=Shift, D=Ctrl, K=Ctrl */
+/* Cheapino v2 — Vial keymap. Home-row mods: A=GUI, S=Alt, D=Ctrl, F=Shift (mirrored on right) */
 
 #include QMK_KEYBOARD_H
 
@@ -36,7 +36,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 
-// Manual combos — Vial reserves key_combos[] for its own system
+// Manual combos — Vial reserves key_combos[] for its own dynamic combo system,
+// so combos are handled manually here instead.
 #define COMBO_WINDOW 100
 
 static uint16_t d_time = 0;

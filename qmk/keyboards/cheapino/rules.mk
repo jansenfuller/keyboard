@@ -4,6 +4,7 @@ CUSTOM_MATRIX = lite
 WS2812_DRIVER = vendor
 RGBLIGHT_ENABLE = yes
 DEFERRED_EXEC_ENABLE = yes
+EXTRAKEY_ENABLE = yes   # required for KC_MPLY, KC_VOLU, KC_VOLD in encoder.c
 SRC += encoder.c
 SRC += ghosting.c
 SRC += matrix.c
