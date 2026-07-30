@@ -35,7 +35,24 @@ jobs:
           repository: ${{ matrix.repo }}
           ref: ${{ matrix.ref }}
           path: qmk_fw
-          submodules: recursive
+          submodules: false
+
+      - name: Cache QMK submodules (chibios / chibios-contrib / pico-sdk / printf / lufa)
+        continue-on-error: true
+        uses: actions/cache@v4
+        with:
+          path: |
+            qmk_fw/lib
+            qmk_fw/.git/modules
+          key: qmk-lib-${{ matrix.keyboard }}-${{ matrix.ref }}-${{ github.run_id }}
+          restore-keys: |
+            qmk-lib-${{ matrix.keyboard }}-${{ matrix.ref }}-
+
+      - name: Fetch required submodules only
+        working-directory: qmk_fw
+        run: |
+          git submodule update --init --depth 1 \
+            lib/chibios lib/chibios-contrib lib/pico-sdk lib/printf lib/lufa
 
       - uses: actions/checkout@v4
         with:
@@ -57,9 +74,7 @@ jobs:
 
       - name: Build ${{ matrix.keyboard }}
         working-directory: qmk_fw
-        run: |
-          rm -rf .build
-          make ${{ matrix.keyboard }}:custom
+        run: make ${{ matrix.keyboard }}:custom
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
