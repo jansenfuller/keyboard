@@ -118,7 +118,14 @@ void matrix_init_custom(void) {
     unselect_rows();
     gpio_set_pin_input(row_pins[MATRIX_ROWS-1]);
     gpio_write_pin_high(row_pins[MATRIX_ROWS-1]);
+    // debounce_init API differs between firmware forks:
+    //   vial-qmk / older QMK: debounce_init(uint8_t num_rows)
+    //   standard QMK (post-2021): debounce_init(void)
+#if defined(VIAL_ENABLE) || defined(VIA_ENABLE)
+    debounce_init(MATRIX_ROWS);
+#else
     debounce_init();
+#endif
 }
 
 void store_old_matrix(matrix_row_t current_matrix[]) {
