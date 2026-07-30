@@ -21,7 +21,8 @@ void turned(bool clockwise) {
     if (!(turns%ENCODER_RESOLUTION == 0)) {
         return;
     }
-    tap_code(clockwise ? KC_VOLU : KC_VOLD);
+    // Editor tab switching: Ctrl+Tab (next) / Ctrl+Shift+Tab (previous)
+    tap_code16(clockwise ? C(KC_TAB) : C(S(KC_TAB)));
 }
 
 void blank_column(matrix_row_t current_matrix[], uint8_t col) {
