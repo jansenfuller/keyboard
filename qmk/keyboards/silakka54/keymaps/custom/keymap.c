@@ -96,25 +96,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 
-/* Manual combos (Vial reserves key_combos[] for its own combo system) */
-static bool d_held = false;
-static bool f_held = false;
-static bool j_held = false;
+/* Native QMK combos */
+const uint16_t PROGMEM esc_combo[]  = {LCTL_T(KC_D), LSFT_T(KC_F), COMBO_END};
+const uint16_t PROGMEM caps_combo[] = {KC_Z, KC_X, COMBO_END};
+combo_t key_combos[] = {
+    COMBO(esc_combo,  KC_ESC),
+    COMBO(caps_combo, KC_CAPS),
+};
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    // D+F = ESC
-    if (keycode == LCTL_T(KC_D)) {
-        d_held = record->event.pressed;
-        if (d_held && f_held) { tap_code(KC_ESC); d_held = f_held = false; return false; }
-    }
-    if (keycode == LSFT_T(KC_F)) {
-        f_held = record->event.pressed;
-        if (d_held && f_held) { tap_code(KC_ESC); d_held = f_held = false; return false; }
-    }
-    // F+J = Caps Lock toggle
-    if (keycode == RSFT_T(KC_J)) {
-        j_held = record->event.pressed;
-        if (f_held && j_held) { tap_code(KC_CAPS); f_held = j_held = false; return false; }
-    }
     return true;
 }

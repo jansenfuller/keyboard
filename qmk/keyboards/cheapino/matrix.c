@@ -30,7 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "print.h"
 
 // How long the scanning code waits for changed io to settle.
-#define MATRIX_IO_DELAY 30
+// RP2040 GPIO settles in <1µs; 10µs is a safe margin (was 30µs).
+#define MATRIX_IO_DELAY 10
 
 #define COL_SHIFTER ((uint16_t)1)
 
