@@ -12,12 +12,14 @@ QMK and ZMK firmware for three split keyboards.
 
 ## Cheapino v2
 
+> Layout rationale (bracket/operator finger assignment, SFB avoidance) is documented in [`KEYMAP_ANALYSIS.md`](./KEYMAP_ANALYSIS.md).
+
 ### Encoder
 
 | Action | Output |
 |---|---|
-| Rotate clockwise | Volume up |
-| Rotate counter-clockwise | Volume down |
+| Rotate clockwise | Next editor tab (Ctrl+Tab) |
+| Rotate counter-clockwise | Previous editor tab (Ctrl+Shift+Tab) |
 | Click | Play / Pause |
 
 ### Combos
@@ -31,7 +33,7 @@ QMK and ZMK firmware for three split keyboards.
 
 | Setting | Value |
 |---|---|
-| `TAPPING_TERM` | 200 ms |
+| `TAPPING_TERM` | 150 ms |
 | `QUICK_TAP_TERM` | 120 ms |
 | `PERMISSIVE_HOLD` | disabled |
 | `DEBOUNCE_TYPE` | `sym_eager_pr` |
@@ -63,11 +65,11 @@ QMK and ZMK firmware for three split keyboards.
          └──────┴──────┴──────┘             └──────┴──────┴──────┘
 
     ┌──────┬──────┬──────┬──────┬──────┐ ┌──────┬──────┬──────┬──────┬──────┐
- L2 │  `   │  /   │  -   │  \   │      │ │      │      │      │      │      │
+ L2 │  -   │  =   │  `   │  \   │  |   │ │ HOME │ PGDN │ PGUP │ END  │ DEL  │
     ├──────┼──────┼──────┼──────┼──────┤ ├──────┼──────┼──────┼──────┼──────┤
-    │  {   │  (   │  }   │  )   │      │ │ LEFT │ DOWN │  UP  │RIGHT │      │
+    │  {   │  }   │  (   │  )   │  &   │ │ LEFT │ DOWN │  UP  │RIGHT │      │
     ├──────┼──────┼──────┼──────┼──────┤ ├──────┼──────┼──────┼──────┼──────┤
-    │  <   │  [   │  >   │  ]   │      │ │      │      │      │      │      │
+    │  [   │  ]   │  <   │  >   │  !   │ │      │      │      │      │      │
     └──────┴──────┴──────┴──────┴──────┘ └──────┴──────┴──────┴──────┴──────┘
          ┌──────┬──────┬──────┐             ┌──────┬──────┬──────┐
          │ MO3  │      │      │             │      │      │ MO3  │
@@ -76,9 +78,9 @@ QMK and ZMK firmware for three split keyboards.
     ┌──────┬──────┬──────┬──────┬──────┐ ┌──────┬──────┬──────┬──────┬──────┐
  L3 │ F1   │ F2   │ F3   │ F4   │ F5   │ │ F6   │ F7   │ F8   │ F9   │ F10  │
     ├──────┼──────┼──────┼──────┼──────┤ ├──────┼──────┼──────┼──────┼──────┤
-    │ F11  │ F12  │      │ RST  │ BOOT │ │ HOME │ PGDN │ PGUP │ END  │ DEL  │
+    │ F11  │ F12  │      │      │      │ │      │      │      │      │ INS  │
     ├──────┼──────┼──────┼──────┼──────┤ ├──────┼──────┼──────┼──────┼──────┤
-    │      │      │      │      │      │ │      │      │      │      │      │
+    │      │      │      │ RST  │ BOOT │ │      │      │      │      │      │
     └──────┴──────┴──────┴──────┴──────┘ └──────┴──────┴──────┴──────┴──────┘
          ┌──────┬──────┬──────┐             ┌──────┬──────┬──────┐
          │      │      │      │             │      │      │      │
