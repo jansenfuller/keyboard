@@ -45,6 +45,14 @@ jobs:
             -DZMK_CONFIG="$PWD"
           cp build/right/zephyr/*.uf2 /tmp/firmware/lily58_right.uf2 2>/dev/null || true
 
+      - name: Build reset
+        run: |
+          cd $GITHUB_WORKSPACE/zmk/config
+          west build -d build/right -s zmk/app -b nice_nano_v2 -- \
+            -DSHIELD=settings_reset \
+            -DZMK_CONFIG="$PWD"
+          cp build/right/zephyr/*.uf2 /tmp/firmware/settings_reset.uf2 2>/dev/null || true
+
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
